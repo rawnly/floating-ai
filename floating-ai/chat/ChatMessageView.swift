@@ -46,6 +46,7 @@ struct ChatMessageView: View {
                         }
                 })
                 .padding(.top, 5)
+                .padding(self.style == Self.Kind.assistant ? .trailing : .leading, 20)
                 .selectionDisabled(false)
             if self.style == Self.Kind.user {
                 Image(systemName: "person.circle.fill")
@@ -58,6 +59,7 @@ struct ChatMessageView: View {
         .padding(.vertical, 10)
         .padding(.horizontal, 8)
         .background(self.color)
+        .transition(.move(edge: self.style == .assistant ? .leading : .trailing).combined(with: .opacity))
         .onHover { hovered in
             withAnimation(.easeInOut(duration: 0.2)) {
                 if hovered {

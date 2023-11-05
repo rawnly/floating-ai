@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OpenAI
 import SwiftData
 
 @Model
@@ -16,10 +17,16 @@ final class Conversation {
     var id: ID
     var name: String
     var messages: [Message]
+    var systemPrompt: String?
+    var model: Model?
     
     var visibleMessages: [Message] {
         get {
-            self.messages.filter { $0.role != .system && $0.role != .function && !$0.content.isEmpty }
+            self.messages.filter {
+                $0.role != .system 
+                    && $0.role != .function
+                    && !$0.content.isEmpty
+            }
         }
     }
     

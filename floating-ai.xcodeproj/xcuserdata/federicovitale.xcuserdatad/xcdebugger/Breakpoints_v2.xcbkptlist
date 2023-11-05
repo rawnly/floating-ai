@@ -132,5 +132,69 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5A7B0B4D-B927-49BD-9F1C-1437C7CEEEA1"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/utils/DockIcon.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "isVisible"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F8395AD1-3185-44C6-9429-A558CDC02344"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/utils/Preferences.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "floatingWindow"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "F8395AD1-3185-44C6-9429-A558CDC02344 - 86a75f1b677d4d56"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static floating_ai.Preferences.floatingWindow.didset : Swift.Bool"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/utils/Preferences.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "92">
+               </Location>
+               <Location
+                  uuid = "F8395AD1-3185-44C6-9429-A558CDC02344 - 86a75f1b677d4d56"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "static floating_ai.Preferences.floatingWindow.didset : Swift.Bool"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/utils/Preferences.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "57"
+                  endingLineNumber = "57"
+                  offsetFromSymbolStart = "96">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

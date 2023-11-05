@@ -32,8 +32,9 @@ extension SidebarItem {
 }
 
 struct SettingsView: View {
-    @State private var isOn = false
+    @State private var isOn = Preferences.floatingWindow
     @State private var selectedTab = SidebarItem.general
+    @State private var showDockIcon = Preferences.showDockIcon
     
     
     var body: some View {
@@ -45,6 +46,8 @@ struct SettingsView: View {
             }
             .listStyle(.sidebar)
             .toolbar(removing: .sidebarToggle)
+            .toolbarTitleDisplayMode(.inline)
+            .padding(.top, 20)
         } detail: {
             switch selectedTab {
             case .keystrokes:
@@ -55,23 +58,41 @@ struct SettingsView: View {
                 SettingsForm {
                     VStack(alignment: .leading)  {
                         HStack {
-                            Text("App Activation:")
+                            Text("App Activation")
+                            Spacer()
                             KeyboardShortcuts.Recorder(for: .activateApp)
                         }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                        
                         HStack {
-                            Toggle(isOn: $isOn) {
-                                Text("Floating Window:")
-                            }
-                            .toggleStyle(.checkbox)
+                            Text("Floating Window")
+                            Spacer()
+                            Toggle(isOn: $isOn) { EmptyView() }
                             .onChange(of: isOn) { _, newValue in
-                                print(isOn)
+                                Preferences.floatingWindow = newValue
                             }
                         }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                        
+                        HStack {
+                            Text("Show Dock Icon")
+                            Spacer()
+                            Toggle(isOn: $showDockIcon) {
+                                EmptyView()
+                            }
+                            .onChange(of: showDockIcon) { _, newValue in
+                                Preferences.showDockIcon = newValue
+                            }
+                        }
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
                     }
                 }
             }
         }
-        .navigationSplitViewStyle(.balanced)
+        .navigationSplitViewStyle(.prominentDetail)
     }
 }
 
@@ -80,8 +101,3 @@ extension KeyboardShortcuts.Name {
 }
 
 
-struct SettingsPreview: PreviewProvider {
-    static var previews: some View {
-        SettingsView()
-    }
-}

@@ -8,6 +8,8 @@
 import Foundation
 import Combine
 import OpenAI
+import SwiftUI
+import SwiftData
 
 struct RenameArgs: Codable {
     let name: String
@@ -18,12 +20,22 @@ struct RenameArgs: Codable {
 }
 
 public final class ChatStore: ObservableObject {
+    @Environment(\.modelContext) private var modelContext
+    @Query private var storedConversations: [Conversation]
+
     private var openAI: OpenAIProtocol = OpenAI(apiToken: "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")
     
+    @Published var model: Model = .gpt3_5Turbo_16k
     @Published var isLoading: Bool = false
     @Published var conversations: [Conversation] = []
     @Published var conversationErrors: [Conversation.ID: Error] = [:]
     @Published var selectedConversationID: Conversation.ID?
+    @Published var drafts: [Conversation.ID: Message] = [:]
+    
+    static let availableModels: [Model] = [
+        .gpt3_5Turbo_16k,
+        .gpt4_32k
+    ]
     
     var selectedConversation: Conversation? {
         selectedConversationID.flatMap { id in
@@ -40,9 +52,20 @@ public final class ChatStore: ObservableObject {
     
     
     // MARK: - Events
+    func saveConversation(_ conversationId: Conversation.ID) {
+//        guard let stored = storedConversations.first(where: { $0.id == conversationId }) else { return }
+//        guard let current = conversations.first(where: { $0.id == conversationId }) else { return }
+//        
+//        stored.name = current.name
+//        stored.messages = current.messages
+//        stored.model = current.model
+//        stored.systemPrompt = current.systemPrompt
+    }
+    
     func createConversation() -> Conversation.ID {
         let conversation = Conversation(id: .init(), [])
         conversations.append(conversation)
+//        modelContext.insert(conversation)
         return conversation.id
     }
     
@@ -55,25 +78,34 @@ public final class ChatStore: ObservableObject {
         conversations[idx].messages = []
     }
     
-    func updateConversationName(_ conversationId: Conversation.ID, name: String) -> Array<Conversation>.Index  {
+    func updateConversationName(_ conversationId: Conversation.ID, name: String, animated: Bool? = nil) -> Array<Conversation>.Index  {
         guard let idx = conversations.firstIndex(where: { $0.id == conversationId }) else { return -1 }
         
-        conversations[idx].name = ""
-        var index = 0
-        Timer.scheduledTimer(withTimeInterval: 0.075, repeats: true) { timer in
-            if index < name.count {
-                self.conversations[idx].name += String(name[name.index(name.startIndex, offsetBy: index)])
-                index += 1
-            } else {
-                timer.invalidate()
+        if let animated = animated, animated {
+            conversations[idx].name = ""
+            var index = 0
+            Timer.scheduledTimer(withTimeInterval: 0.075, repeats: true) { timer in
+                if index < name.count {
+                    self.conversations[idx].name += String(name[name.index(name.startIndex, offsetBy: index)])
+                    index += 1
+                } else {
+                    timer.invalidate()
+                }
             }
+        } else {
+            conversations[idx].name = name
         }
+        
+//        storedConversations[idx].name = name
         
         return idx
     }
     
     func deleteConversation(_ conversationId: Conversation.ID?) {
         conversations.removeAll(where: { $0.id == conversationId })
+//        if let index = storedConversations.firstIndex(where: { $0.id == conversationId }) {
+//            modelContext.delete(storedConversations[index])
+//        }
     }
     
     
@@ -138,7 +170,7 @@ Below some useful infos:
 CURRENT TIMESTAMP: \(Date.now)
 ---
 CONVERSATION_DATA
-NAME = \(conversation.name ?? "n.d")
+NAME = \(conversation.name)
 ID = \(conversation.id)
 TIMESTAMP = \(conversation.timestamp.timeIntervalSince1970)
 ---
@@ -165,7 +197,7 @@ When prompted to rename conversation ignore it.
             
             let functions: [ChatFunctionDeclaration]? = [renameChat]
             let query = ChatQuery(
-                model: .gpt3_5Turbo0613,
+                model: self.model,
                 messages: [system_prompt] + conversation.messages.map { $0.toChat() },
                 functions: functions
             )
@@ -199,7 +231,7 @@ When prompted to rename conversation ignore it.
                                 guard let json = functionCallArgs.data(using: .utf8) else { return }
                                 let args = try JSONDecoder().decode(RenameArgs.self, from: json);
                                 print("Renaming to \(args.name)")
-                                let _ = self.updateConversationName(conversation.id, name: args.name)
+                                let _ = self.updateConversationName(conversation.id, name: args.name, animated: true)
                                 return
                             default:
                                 break
@@ -207,6 +239,7 @@ When prompted to rename conversation ignore it.
                             
                             return
                         } else if finishReason == "stop" {
+                            
                             if conversation.visibleMessages.count == 2 {
                                 await self.sendSystemMessage(
                                     "rename the current conversation with a simple clear name",
@@ -214,6 +247,7 @@ When prompted to rename conversation ignore it.
                                 )
                             }
                             
+                            self.saveConversation(conversation.id)
                             return
                         }
                     }

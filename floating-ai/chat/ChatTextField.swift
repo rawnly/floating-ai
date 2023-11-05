@@ -15,83 +15,97 @@ struct ChatTextField: View {
     var isLoading: Bool = false
     var onSubmit: () -> Void
     var placeholder: String
+    var isEmpty: Bool = false
     
     init(
         _ placeholder: String,
         text: Binding<String>,
         isLoading: Bool,
+        isEmpty: Bool,
         onSubmit: @escaping () -> Void
     ) {
         self.placeholder = placeholder
         self.text = text
         self.isLoading = isLoading
+        self.isEmpty = isEmpty
         self.onSubmit = onSubmit
     }
     
-    private var borderColor: Color {
-        if isFocused {
-            return Color.accentColor
-        }
-        
-        return Color.secondary.opacity(0.3)
-    }
-    
-    private var borderWidth: CGFloat {
-        if isFocused {
-            return 1.5
-        }
-        
-        return 1
-    }
+    @State
+    var gradientDirection: [UnitPoint] = [.top, .bottom]
     
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            TextField(self.placeholder, text: self.text, axis: .vertical)
-                .lineLimit(10, reservesSpace: false)
-                .multilineTextAlignment(.leading)
-                .focused($isFocused)
-                .backgroundStyle(Color.accentColor)
-                .textFieldStyle(PlainTextFieldStyle())
-                .font(Font.system(size: 14).monospaced())
-                .disableAutocorrection(false)
-                .disabled(self.isLoading)
-                .padding()
-                .background(Color.clear)
-                .cornerRadius(8)
-                .onAppear {
-                    self.isFocused = true
+//            Rectangle()
+//                .fill(.ultraThinMaterial)
+//                .frame(maxHeight: 50)
+//                .blur(radius: 5)
+//                .zIndex(0)
+//                .padding(.top, -10)
+//                .transition(.opacity)
+            
+            VStack {
+                HStack {
+                    if self.isEmpty {
+                        Text("Press Enter to submit")
+                            .font(.system(size: 12))
+                            .foregroundStyle(.secondary.opacity(0.5))
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        Spacer()
+                    }
                 }
-                .onChange(of: self.isLoading, { _, newValue in
-                    self.isFocused = !newValue
-                })
-                .onTapGesture {
-                    print("TAP 1")
-                    self.isFocused = true
-                }
-                .overlay(content: {
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(
-                            borderColor,
-                            lineWidth: borderWidth
-                        )
-                        .onTapGesture {
+                .animation(.easeInOut(duration: 0.2), value: self.isEmpty)
+                
+                ZStack(alignment: .trailing) {
+                    TextField(self.placeholder, text: self.text, axis: .vertical)
+                        .lineLimit(10, reservesSpace: false)
+                        .multilineTextAlignment(.leading)
+                        .focused($isFocused)
+                        .backgroundStyle(Color.accentColor)
+                        .textFieldStyle(PlainTextFieldStyle())
+                        .font(Font.system(size: 12))
+                        .disableAutocorrection(false)
+                        .disabled(self.isLoading)
+                        .padding()
+                        .background(Color.clear)
+                        .cornerRadius(8)
+                        .onAppear {
                             self.isFocused = true
                         }
-                        .background(.clear)
-                })
-                .onSubmit { self.onSubmit() }
-                .zIndex(1)
-            
-            if self.isLoading {
-                ProgressView()
-                    .padding(.trailing, 15)
-                    .controlSize(.small)
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.accentColor))
-                    .zIndex(2)
+                        .onChange(of: self.isLoading, { _, newValue in
+                            self.isFocused = !newValue
+                        })
+                        .overlay(content: {
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(
+                                    LinearGradient(
+                                        colors: [Color.accentColor.opacity(self.isFocused ? 0.3 : 0.2), Color.secondary.opacity(1)],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    ),
+                                    lineWidth: 2
+                                )
+                                .background(.clear)
+                        })
+                        .onSubmit { self.onSubmit() }
+                        .zIndex(1)
+                    
+                    if self.isLoading {
+                        ProgressView()
+                            .padding(.trailing, 15)
+                            .controlSize(.small)
+                            .progressViewStyle(CircularProgressViewStyle(tint: Color.accentColor))
+                            .transition(.opacity)
+                            .zIndex(2)
+                    }
+                }
+                .animation(.easeInOut(duration: 0.2), value: self.isLoading)
+                .background(.ultraThinMaterial)
+//                ._visualEffect(material: .sidebar)
+                .cornerRadius(8)
             }
+            .zIndex(1)
         }
-        .background(.ultraThinMaterial)
-        .cornerRadius(8)
     }
 }

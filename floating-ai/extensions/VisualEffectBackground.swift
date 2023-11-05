@@ -34,6 +34,7 @@ struct VisualEffectBackground: NSViewRepresentable {
     
     func updateNSView(_ nsView: NSVisualEffectView, context: Context) {
         nsView.material = material
+        nsView.state = .active
         nsView.blendingMode = blendingMode
         nsView.isEmphasized = isEmphasized
     }

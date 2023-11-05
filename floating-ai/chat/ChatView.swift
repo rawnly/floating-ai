@@ -61,7 +61,8 @@ struct ChatView: View {
                 ChatTextField(
                     self.isLoading ? "Please wait..." : "Ask AI anything..",
                     text: $text,
-                    isLoading: self.isLoading
+                    isLoading: self.isLoading,
+                    isEmpty: true
                 ) {
                     let message = Message(
                         id: UUID().uuidString, 
@@ -73,7 +74,6 @@ struct ChatView: View {
                     self.onMessageSent(message)
                 }
             }
-            ._visualEffect(material: .sidebar)
             .zIndex(1)
         }
         .padding(20)

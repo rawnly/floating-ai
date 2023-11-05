@@ -8,14 +8,24 @@
 import SwiftUI
 import SwiftData
 import HotKey
+import KeyboardShortcuts
 import OpenAI
+
 
 @main
 struct floating_aiApp: App {
+    @StateObject private var appState = AppState()
+    @StateObject private var permissionService  = PermissionsService()
+    
+    @State private var isAlertOpen: Bool = false;
+    
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Conversation.self,
         ])
+        
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
@@ -25,25 +35,50 @@ struct floating_aiApp: App {
         }
     }()
 
-    
-    let activationHotKey = HotKey(key: .a, modifiers: [.command, .option], keyUpHandler:  {
-        if !NSApp.isHidden {
-            NSApp.hide(nil)
-        } else {
-            NSApp.activate()
-        }
-    })
 
     var body: some Scene {
+        Window("Floating AI", id: "chat") {
+            ChatsList(chatStore: self.appDelegate.chatStore)
+                ._visualEffect(material: .sidebar)
+                .onAppear {
+                    self.permissionService.pollAccessibilityPrivileges(shouldPrompt: true)
+                }
+        }
+        .windowToolbarStyle(.unified(showsTitle: false))
+        .defaultPosition(.center)
+        .modelContainer(sharedModelContainer)
+        
         Settings {
             SettingsView()
         }
-        Window("Floating AI", id: "main-window") {
-            ChatsList(chatStore: .init())
-        }
-        .windowStyle(.hiddenTitleBar)
-        .defaultPosition(.topLeading)
-        
-        .modelContainer(sharedModelContainer)
+        .defaultPosition(.center)
+        .windowResizability(.contentSize)
+        .windowStyle(.titleBar)
+        .windowToolbarStyle(.unified)
     }
 }
+
+@MainActor
+final class AppState: ObservableObject {
+    init() {
+        KeyboardShortcuts.onKeyDown(for: .activateApp) {
+            print(NSApp.isHidden, NSApp.isActive)
+            if NSApp.isActive {
+                NSApplication.shared.hide(nil)
+            } else if NSApp.isHidden {
+                NSApplication.shared.activate()
+            } else if !NSApp.isActive && !NSApp.isHidden {
+                NSApplication.shared.activate()
+                
+                guard let window = NSApplication.shared.windows.first(where: { $0.identifier?.rawValue == "chat" }) else {
+                    return
+                }
+                
+                window.makeKeyAndOrderFront(nil)
+                window.makeMain()
+                FocusWindow.focusWindow(name: "Floating AI")
+            }
+        }
+    }
+}
+
