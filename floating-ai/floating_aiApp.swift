@@ -12,18 +12,6 @@ import OpenAI
 
 @main
 struct floating_aiApp: App {
-    @StateObject var chatStore: ChatStore
-    
-    init() {
-        self._chatStore = StateObject(
-            wrappedValue: ChatStore(
-                openAIClient: OpenAI(
-                    apiToken: "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"
-                )
-            )
-        )
-    }
-    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Conversation.self,
@@ -51,7 +39,7 @@ struct floating_aiApp: App {
             SettingsView()
         }
         Window("Floating AI", id: "main-window") {
-            ChatsList(chatStore: chatStore)
+            ChatsList(chatStore: .init())
         }
         .windowStyle(.hiddenTitleBar)
         .defaultPosition(.topLeading)

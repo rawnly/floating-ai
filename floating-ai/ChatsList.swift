@@ -27,8 +27,11 @@ struct ChatsList: View {
                 }
             )) {
                 ForEach($chatStore.conversations, id: \.id) { $conversation in
-                    Text(conversation.messages.last?.content ?? "New Conversation")
-                        .lineLimit(1)
+                    EditableLabel(
+                        label: conversation.messages.last?.content ?? "New Conversation"
+                    ) { name in
+                        chatStore.updateConversationName(conversation.id, name: name)
+                    }
                 }
             }
             .toolbar {
@@ -43,51 +46,42 @@ struct ChatsList: View {
                         .buttonStyle(.borderedProminent)
                     }
             }
-            
         } detail: {
             if let conversation = chatStore.selectedConversation {
-                VStack(alignment: conversation.messages.isEmpty ? .center : .trailing) {
-                    if conversation.messages.isEmpty {
-                        Spacer()
-                        Text("No messages yet.")
-                            .multilineTextAlignment(.center)
-                            .lineLimit(1)
-                            .foregroundStyle(Color.secondary.opacity(0.5))
-                            .zIndex(2)
-                        Spacer()
-                    }
-                    
-                    List {
-                        ForEach(conversation.messages, id: \.id) { message in
-                            ChatMessageView(message.content, style: message.role)
+                ZStack(alignment: .bottom) {
+                    ScrollViewReader { scrollView in
+                        ScrollView {
+                            LazyVStack(alignment: .leading) {
+                                ForEach(conversation.messages, id: \.id) { message in
+                                    ChatMessageView(message.content, style: message.role)
+                                }
+                            }
+                            .id(UUID())
                         }
+                        .onAppear {
+                            guard let lastMessage = conversation.messages.last else { return }
+                            scrollView.scrollTo(lastMessage.id, anchor: .bottom)
+                        }
+                        .onChange(of: conversation.messages) { _, _ in
+                            guard let lastMessage = conversation.messages.last else { return }
+                            scrollView.scrollTo(lastMessage.id, anchor: .bottom)
+                        }
+                        .background(.clear)
+                        .cornerRadius(8)
                     }
-                    .id(UUID())
                     .zIndex(0)
                     
-//                    ScrollViewReader { scrollView in
-//                        ScrollView {
-//                            LazyVStack(alignment: .leading) {
-//                                ForEach(conversation.messages, id: \.id) { message in
-//                                    ChatMessageView(message.content, style: message.role)
-//                                }
-//                            }
-//                            .id(UUID())
-//                        }
-//                        .onAppear {
-//                            guard let lastMessage = conversation.messages.last else { return }
-//                            scrollView.scrollTo(lastMessage.id, anchor: .bottom)
-//                        }
-//                        .onChange(of: conversation.messages) { _, _ in
-//                            guard let lastMessage = conversation.messages.last else { return }
-//                            scrollView.scrollTo(lastMessage.id, anchor: .bottom)
-//                        }
-//                        .background(.clear)
-//                        .cornerRadius(8)
-//                    }
-//                    .zIndex(0)
-                    
-                    HStack {
+                    LazyVStack(alignment: .leading) {
+                        if conversation.messages.isEmpty {
+                            Spacer()
+                            Text("Press enter to submit")
+                                .multilineTextAlignment(.center)
+                                .lineLimit(1)
+                                .foregroundStyle(Color.secondary.opacity(0.5))
+                                .zIndex(2)
+                            Spacer()
+                        }
+                        
                         ChatTextField(
                             chatStore.isLoading ? "Please wait..." : "Ask AI anything..",
                             text: $text,
@@ -106,8 +100,38 @@ struct ChatsList: View {
                             }
                         }
                     }
-                    ._visualEffect(material: .sidebar)
-                    .zIndex(1)
+                }
+                .padding(20)
+            } else {
+                VStack(alignment: .trailing) {
+                    Spacer()
+                    VStack {
+                        Text("Press enter to submit")
+                            .multilineTextAlignment(.center)
+                            .lineLimit(1)
+                            .foregroundStyle(Color.secondary.opacity(0.5))
+                            .zIndex(2)
+                        ChatTextField(
+                            chatStore.isLoading ? "Please wait..." : "Ask AI anything..",
+                            text: $text,
+                            isLoading: chatStore.isLoading
+                        ) {
+                            let conversationId = chatStore.createConversation()
+                            
+                            let message = Message(
+                                id: UUID().uuidString,
+                                kind: .user,
+                                chat_id: conversationId,
+                                self.text
+                            )
+                            self.text = ""
+                            chatStore.selectConversation(conversationId)
+                            
+                            Task {
+                                await chatStore.sendMessage(message, conversationId: conversationId)
+                            }
+                        }
+                    }
                 }
                 .padding(20)
             }

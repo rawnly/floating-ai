@@ -126,8 +126,8 @@
             filePath = "floating-ai/ChatStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "completeChat(conversationId:)"
             landmarkType = "7">
             <Locations>
@@ -174,8 +174,8 @@
             filePath = "floating-ai/ChatStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "94"
+            endingLineNumber = "94"
             landmarkName = "completeChat(conversationId:)"
             landmarkType = "7">
             <Locations>
@@ -297,8 +297,8 @@
             filePath = "floating-ai/ChatStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
             landmarkName = "completeChat(conversationId:)"
             landmarkType = "7">
             <Locations>

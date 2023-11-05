@@ -10,7 +10,7 @@ import Combine
 import OpenAI
 
 public final class ChatStore: ObservableObject {
-    public var openAI: OpenAIProtocol
+    private var openAI: OpenAIProtocol = OpenAI(apiToken: "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")
     
     @Published var isLoading: Bool = false
     @Published var conversations: [Conversation] = []
@@ -30,9 +30,6 @@ public final class ChatStore: ObservableObject {
         .eraseToAnyPublisher()
     }
     
-    public init(openAIClient: OpenAIProtocol) {
-        self.openAI = openAIClient
-    }
     
     // MARK: - Events
     func createConversation() -> Conversation.ID {
@@ -43,6 +40,11 @@ public final class ChatStore: ObservableObject {
     
     func selectConversation(_ conversationId: Conversation.ID?) {
         selectedConversationID = conversationId
+    }
+    
+    func updateConversationName(_ conversationId: Conversation.ID, name: String) {
+        guard let idx = conversations.firstIndex(where: { $0.id == conversationId }) else { return }
+        conversations[idx].name = name
     }
     
     func deleteConversation(_ conversationId: Conversation.ID) {
@@ -123,9 +125,13 @@ public final class ChatStore: ObservableObject {
                             previousMessage.content + message.content
                         )
                         
-                        conversations[conversationIndex].messages[existingMessageIndex] = combinedMessage
+                        DispatchQueue.main.async {
+                            self.conversations[conversationIndex].messages[existingMessageIndex] = combinedMessage
+                        }
                     } else {
-                        conversations[conversationIndex].messages.append(message)
+                        DispatchQueue.main.async {
+                            self.conversations[conversationIndex].messages.append(message)
+                        }
                     }
                 }
                 

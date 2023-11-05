@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A096EE22AF73FDE00D47D2D /* EditableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A096EE12AF73FDE00D47D2D /* EditableLabel.swift */; };
 		9AD4DBC02AF59DA2008F83DB /* floating_aiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBBF2AF59DA2008F83DB /* floating_aiApp.swift */; };
 		9AD4DBC22AF59DA2008F83DB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC12AF59DA2008F83DB /* ContentView.swift */; };
 		9AD4DBC42AF59DA2008F83DB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC32AF59DA2008F83DB /* Conversation.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A096EE12AF73FDE00D47D2D /* EditableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableLabel.swift; sourceTree = "<group>"; };
 		9AD4DBBC2AF59DA2008F83DB /* floating-ai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "floating-ai.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD4DBBF2AF59DA2008F83DB /* floating_aiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = floating_aiApp.swift; sourceTree = "<group>"; };
 		9AD4DBC12AF59DA2008F83DB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 				9AD4DBF52AF69EF6008F83DB /* chat */,
 				9AD4DBBF2AF59DA2008F83DB /* floating_aiApp.swift */,
 				9AD4DBC12AF59DA2008F83DB /* ContentView.swift */,
+				9A096EE12AF73FDE00D47D2D /* EditableLabel.swift */,
 				9AD4DBD62AF65725008F83DB /* SettingsView.swift */,
 				9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */,
 				9AD4DBDE2AF65E16008F83DB /* SettingsForm.swift */,
@@ -260,6 +263,7 @@
 				9AD4DBC42AF59DA2008F83DB /* Conversation.swift in Sources */,
 				9AD4DC1D2AF6E199008F83DB /* ChatsList.swift in Sources */,
 				9AD4DC152AF6B6CF008F83DB /* ChatMessage.swift in Sources */,
+				9A096EE22AF73FDE00D47D2D /* EditableLabel.swift in Sources */,
 				9AD4DC192AF6B7E4008F83DB /* ChatView.swift in Sources */,
 				9AD4DBE12AF65FC4008F83DB /* EffectView.swift in Sources */,
 				9AD4DBC02AF59DA2008F83DB /* floating_aiApp.swift in Sources */,

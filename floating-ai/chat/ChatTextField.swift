@@ -56,8 +56,14 @@ struct ChatTextField: View {
                 .padding()
                 .background(Color.clear)
                 .cornerRadius(8)
+                .onAppear {
+                    self.isFocused = true
+                }
                 .onChange(of: self.isLoading, { _, newValue in
                     self.isFocused = !newValue
+                })
+                .onChange(of: self.isFocused, { _, value in
+                    if !value { return }
                 })
                 .overlay(content: {
                     RoundedRectangle(cornerRadius: 8)
@@ -67,7 +73,7 @@ struct ChatTextField: View {
                         )
                         .background(.clear)
                         .onTapGesture {
-                            print("Tapped")
+                            self.isFocused = true
                         }
                 })
                 .onSubmit { self.onSubmit() }
@@ -81,5 +87,7 @@ struct ChatTextField: View {
                     .zIndex(2)
             }
         }
+        .background(.ultraThinMaterial)
+        .cornerRadius(8)
     }
 }
