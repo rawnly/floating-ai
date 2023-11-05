@@ -13,21 +13,24 @@ struct EditableLabel: View {
     @State var label: String
     @FocusState var isFocused: Bool
     
+    var txt: Binding<String>
+    
     private var onSubmit: ((String) -> Void)?
     
-    init(_ label: String) {
-        self.init(label: label, nil)
+    init(_ label: String, txt: Binding<String>) {
+        self.init(label: label, txt: txt, nil)
     }
     
-    init(label: String, _ onSubmit: ((String) -> Void)?) {
+    init(label: String, txt: Binding<String>, _ onSubmit: ((String) -> Void)?) {
         self.label = label
         self.onSubmit = onSubmit
         self.text = label
+        self.txt = txt
     }
     
     var body: some View {
         if isEditing {
-            TextField(self.label, text: self.$text)
+            TextField(self.label, text: self.txt)
                 .textFieldStyle(PlainTextFieldStyle())
                 .focused(self.$isFocused)
                 .onSubmit {
@@ -63,11 +66,11 @@ struct EditableLabel: View {
                     self.isEditing.toggle()
                     self.isFocused = true
                 }
+                .onChange(of: self.txt.wrappedValue, { _, newValue in
+                    self.label = newValue
+                })
                 .lineLimit(1)
         }
     }
 }
 
-#Preview {
-    EditableLabel(label: "Hello World", nil)
-}

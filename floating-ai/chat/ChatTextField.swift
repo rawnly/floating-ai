@@ -30,10 +30,10 @@ struct ChatTextField: View {
     
     private var borderColor: Color {
         if isFocused {
-            return Color.secondary.opacity(0.3)
+            return Color.accentColor
         }
         
-        return Color.secondary.opacity(0.1)
+        return Color.secondary.opacity(0.3)
     }
     
     private var borderWidth: CGFloat {
@@ -47,10 +47,13 @@ struct ChatTextField: View {
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            TextField(self.placeholder, text: self.text)
+            TextField(self.placeholder, text: self.text, axis: .vertical)
+                .lineLimit(10, reservesSpace: false)
+                .multilineTextAlignment(.leading)
                 .focused($isFocused)
+                .backgroundStyle(Color.accentColor)
                 .textFieldStyle(PlainTextFieldStyle())
-                .font(Font.system(size: 14))
+                .font(Font.system(size: 14).monospaced())
                 .disableAutocorrection(false)
                 .disabled(self.isLoading)
                 .padding()
@@ -62,19 +65,20 @@ struct ChatTextField: View {
                 .onChange(of: self.isLoading, { _, newValue in
                     self.isFocused = !newValue
                 })
-                .onChange(of: self.isFocused, { _, value in
-                    if !value { return }
-                })
+                .onTapGesture {
+                    print("TAP 1")
+                    self.isFocused = true
+                }
                 .overlay(content: {
                     RoundedRectangle(cornerRadius: 8)
                         .stroke(
-                            Color.secondary.opacity(isFocused ? 0.3 : 0.1),
+                            borderColor,
                             lineWidth: borderWidth
                         )
-                        .background(.clear)
                         .onTapGesture {
                             self.isFocused = true
                         }
+                        .background(.clear)
                 })
                 .onSubmit { self.onSubmit() }
                 .zIndex(1)

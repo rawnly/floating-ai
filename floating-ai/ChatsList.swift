@@ -16,6 +16,7 @@ struct ChatsList: View {
         await chatStore.sendMessage(message, conversationId: conversationId)
     }
     
+    
     var body: some View {
         NavigationSplitView {
             List(selection: Binding<Conversation.ID?>(
@@ -28,23 +29,42 @@ struct ChatsList: View {
             )) {
                 ForEach($chatStore.conversations, id: \.id) { $conversation in
                     EditableLabel(
-                        label: conversation.messages.last?.content ?? "New Conversation"
+                        label: conversation.name,
+                        txt: $conversation.name
                     ) { name in
-                        chatStore.updateConversationName(conversation.id, name: name)
+                        let _ = chatStore.updateConversationName(conversation.id, name: name)
                     }
                 }
             }
             .toolbar {
-                ToolbarItem(
-                    placement: .primaryAction) {
-                        Button(action: {
-                            let id = chatStore.createConversation()
-                            chatStore.selectConversation(id)
-                        }) {
-                            Image(systemName: "plus")
-                        }
-                        .buttonStyle(.borderedProminent)
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: {
+                        let id = chatStore.createConversation()
+                        chatStore.selectConversation(id)
+                    }) {
+                        Image(systemName: "plus")
                     }
+                    .buttonStyle(.borderedProminent)
+                }
+                
+                ToolbarItem(placement: .secondaryAction) {
+                    Button(action: {
+                        chatStore.clearActiveConversation(chatStore.selectedConversationID)
+                    }) {
+                        Image(systemName: "eraser")
+                    }
+                    .buttonStyle(.accessoryBar)
+                }
+                
+                ToolbarItem(placement: .secondaryAction) {
+                    Button(action: {
+                        chatStore.deleteConversation(chatStore.selectedConversationID)
+                        chatStore.selectConversation(chatStore.conversations.last?.id)
+                    }) {
+                        Image(systemName: "trash")
+                    }
+                    .buttonStyle(.accessoryBar)
+                }
             }
         } detail: {
             if let conversation = chatStore.selectedConversation {
@@ -52,18 +72,18 @@ struct ChatsList: View {
                     ScrollViewReader { scrollView in
                         ScrollView {
                             LazyVStack(alignment: .leading) {
-                                ForEach(conversation.messages, id: \.id) { message in
+                                ForEach(conversation.visibleMessages, id: \.id) { message in
                                     ChatMessageView(message.content, style: message.role)
                                 }
                             }
                             .id(UUID())
                         }
                         .onAppear {
-                            guard let lastMessage = conversation.messages.last else { return }
+                            guard let lastMessage = conversation.visibleMessages.last else { return }
                             scrollView.scrollTo(lastMessage.id, anchor: .bottom)
                         }
-                        .onChange(of: conversation.messages) { _, _ in
-                            guard let lastMessage = conversation.messages.last else { return }
+                        .onChange(of: conversation.visibleMessages) { _, _ in
+                            guard let lastMessage = conversation.visibleMessages.last else { return }
                             scrollView.scrollTo(lastMessage.id, anchor: .bottom)
                         }
                         .background(.clear)
@@ -72,7 +92,7 @@ struct ChatsList: View {
                     .zIndex(0)
                     
                     LazyVStack(alignment: .leading) {
-                        if conversation.messages.isEmpty {
+                        if conversation.visibleMessages.isEmpty {
                             Spacer()
                             Text("Press enter to submit")
                                 .multilineTextAlignment(.center)
@@ -136,6 +156,7 @@ struct ChatsList: View {
                 .padding(20)
             }
         }
+        ._visualEffect(material: .sidebar)
     }
 }
 
