@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "3043E643-9733-4638-B151-68B01BC469DA"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "887B70EB-35FF-4D2E-9619-2076F7E436D0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/chat/ChatView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "121"
+            endingLineNumber = "121"
+            landmarkName = "onMessageSent(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "887B70EB-35FF-4D2E-9619-2076F7E436D0 - 1a3e697ca47df899"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Result&lt;OpenAI.ChatStreamResult, Swift.Error&gt;) -&gt; () in floating_ai.ChatView.onMessageSent(floating_ai.Message) -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/chat/ChatView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "116"
+                  endingLineNumber = "116"
+                  offsetFromSymbolStart = "276">
+               </Location>
+               <Location
+                  uuid = "887B70EB-35FF-4D2E-9619-2076F7E436D0 - 1a3e697ca47df9f2"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Result&lt;OpenAI.ChatStreamResult, Swift.Error&gt;) -&gt; () in floating_ai.ChatView.onMessageSent(floating_ai.Message) -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/chat/ChatView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "121"
+                  endingLineNumber = "121"
+                  offsetFromSymbolStart = "260">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7A8652E5-9549-435B-A61F-C399DAA6FF24"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/chat/ChatView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "onMessageSent(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1F8D3222-BEF0-42C4-B9FE-EB3A16D25B4B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/chat/ChatView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "122"
+            endingLineNumber = "122"
+            landmarkName = "onMessageSent(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1F8D3222-BEF0-42C4-B9FE-EB3A16D25B4B - 1a3e697ca47df87e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Result&lt;OpenAI.ChatStreamResult, Swift.Error&gt;) -&gt; () in floating_ai.ChatView.onMessageSent(floating_ai.Message) -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/chat/ChatView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "117"
+                  endingLineNumber = "117"
+                  offsetFromSymbolStart = "1172">
+               </Location>
+               <Location
+                  uuid = "1F8D3222-BEF0-42C4-B9FE-EB3A16D25B4B - 1a3e697ca47df9d3"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Result&lt;OpenAI.ChatStreamResult, Swift.Error&gt;) -&gt; () in floating_ai.ChatView.onMessageSent(floating_ai.Message) -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/chat/ChatView.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "122"
+                  endingLineNumber = "122"
+                  offsetFromSymbolStart = "1172">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3C2FC59B-ABE3-40D0-8E55-BF0C9B2BA425"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/ChatStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "87"
+            endingLineNumber = "87"
+            landmarkName = "completeChat(conversationId:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3C2FC59B-ABE3-40D0-8E55-BF0C9B2BA425 - 29d5d2dfb1d3ff66"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "87"
+                  endingLineNumber = "87"
+                  offsetFromSymbolStart = "1396">
+               </Location>
+               <Location
+                  uuid = "3C2FC59B-ABE3-40D0-8E55-BF0C9B2BA425 - 29d5d2dfb1d3f8c1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "84"
+                  endingLineNumber = "84"
+                  offsetFromSymbolStart = "1276">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/ChatStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "completeChat(conversationId:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 29d5d2dfb1d3ff0b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "1500">
+               </Location>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 6321080332e1dd3c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 63cbc35d143d3309"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "260">
+               </Location>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 7ec6cb1dba89949a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 7ec6cb1dba899106"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "90"
+                  endingLineNumber = "90"
+                  offsetFromSymbolStart = "188">
+               </Location>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 63cbc35d143d3326"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "460">
+               </Location>
+               <Location
+                  uuid = "A9281D79-D3B9-4BE5-85E4-2BA4344FE1CA - 63cbc35d143d3326"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "89"
+                  endingLineNumber = "89"
+                  offsetFromSymbolStart = "452">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "floating-ai/ChatStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
+            landmarkName = "completeChat(conversationId:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 29d5d2dfb1d3ff45"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "1436">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 29d5d2dfb1d3ff45"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(1) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "1440">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 6321080332e1dd72"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(2) await resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "52">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 63cbc35d143d3347"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "252">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 7ec6cb1dba89949a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "88">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 7ec6cb1dba899148"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "172">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 63cbc35d143d3347"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(3) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "244">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 7ec6cb1dba89949a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "70"
+                  endingLineNumber = "70"
+                  offsetFromSymbolStart = "112">
+               </Location>
+               <Location
+                  uuid = "BBB7667B-04B7-4BBA-9870-DD2439E65621 - 7ec6cb1dba899148"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "(4) suspend resume partial function for floating_ai.ChatStore.completeChat(conversationId: Foundation.UUID) async -&gt; ()"
+                  moduleName = "floating-ai"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/federicovitale/Developer/SWIFT/floating-ai/floating-ai/ChatStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "88"
+                  endingLineNumber = "88"
+                  offsetFromSymbolStart = "196">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
