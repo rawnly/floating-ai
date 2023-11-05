@@ -246,7 +246,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9AD4DBB72AF59DA2008F83DB /* Build configuration list for PBXProject "floating-ai" */;
+			buildConfigurationList = 9AD4DBB72AF59DA2008F83DB /* Build configuration list for PBXProject "Floating AI" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -456,7 +456,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.federicovitale.floating-ai";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -487,7 +487,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 0.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.federicovitale.floating-ai";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -498,7 +498,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9AD4DBB72AF59DA2008F83DB /* Build configuration list for PBXProject "floating-ai" */ = {
+		9AD4DBB72AF59DA2008F83DB /* Build configuration list for PBXProject "Floating AI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9AD4DBCB2AF59DA3008F83DB /* Debug */,
