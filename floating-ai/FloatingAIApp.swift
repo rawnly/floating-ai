@@ -43,13 +43,17 @@ struct FloatingAIApp: App {
                 .onAppear {
                     self.permissionService.pollAccessibilityPrivileges(shouldPrompt: true)
                 }
+                .frame(minWidth: 400, minHeight: 500)
         }
         .windowToolbarStyle(.unified(showsTitle: false))
-        .defaultPosition(.center)
         .modelContainer(sharedModelContainer)
+        .defaultSize(width: 300, height: 600)
+        .defaultPosition(.topTrailing)
         
         Settings {
             SettingsView()
+                .navigationTitle("Preferences")
+                .frame(width: 600, height: 400)
         }
         .defaultPosition(.center)
         .windowResizability(.contentSize)

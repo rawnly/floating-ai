@@ -17,7 +17,7 @@ enum SidebarItem: String, Identifiable, CaseIterable {
     var id: String { rawValue }
     
     case general
-    case keystrokes
+    case ai
 }
 
 extension SidebarItem {
@@ -25,8 +25,8 @@ extension SidebarItem {
         switch self {
         case .general:
             return "gear"
-        case .keystrokes:
-            return "keyboard"
+        case .ai:
+            return "sparkles"
         }
     }
 }
@@ -50,9 +50,9 @@ struct SettingsView: View {
             .padding(.top, 20)
         } detail: {
             switch selectedTab {
-            case .keystrokes:
+            case .ai:
                 SettingsForm {
-                    Color.red.frame(width: 50, height: 50)
+                    
                 }
             case .general:
                 SettingsForm {
@@ -93,6 +93,7 @@ struct SettingsView: View {
             }
         }
         .navigationSplitViewStyle(.prominentDetail)
+        .toolbar {}
     }
 }
 

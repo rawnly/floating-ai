@@ -33,24 +33,16 @@ struct ChatsList: View {
                 ZStack(alignment: .bottom) {
                     ScrollViewReader { scrollView in
                         ScrollView {
-                            LazyVStack(alignment: .leading) {
-                                ForEach(conversation.visibleMessages, id: \.id) { message in
-                                    ChatMessageView(message.content, style: message.role)
+                            VStack {
+                                ForEach(conversation.visibleMessages) { message in
+                                    ChatBubble(message: message)
                                 }
                             }
-                            .id(UUID())
+                            .padding(.top, 20)
+                            .padding(.horizontal, 20)
+                            .padding(.bottom, 80)
                         }
-                        .onAppear {
-                            guard let lastMessage = conversation.visibleMessages.last else { return }
-                            
-                            withAnimation(.easeInOut) {
-                                scrollView.scrollTo(lastMessage.id, anchor: .bottom)
-                            }
-                        }
-                        //                        .onChange(of: conversation.visibleMessages) { _, _ in
-                        //                            guard let lastMessage = conversation.visibleMessages.last else { return }
-                        //                            scrollView.scrollTo(lastMessage.id, anchor: .bottom)
-                        //                        }
+                        .id(UUID())
                         .background(.clear)
                         .cornerRadius(8)
                     }
@@ -82,8 +74,9 @@ struct ChatsList: View {
                             }
                         }
                     }
+                    .padding(.horizontal, 20)
+                    .padding(.bottom, 20)
                 }
-                .padding(20)
                 .navigationTitle(conversation.name)
             } else {
                 VStack(alignment: .trailing) {
