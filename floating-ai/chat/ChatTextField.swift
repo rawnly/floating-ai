@@ -102,8 +102,8 @@ struct ChatTextField: View {
                 }
                 .animation(.easeInOut(duration: 0.2), value: self.isLoading)
                 .background(.ultraThinMaterial)
-//                ._visualEffect(material: .sidebar)
                 .cornerRadius(8)
+                .shadow(color: .black.opacity(0.25), radius: 16)
             }
             .zIndex(1)
         }

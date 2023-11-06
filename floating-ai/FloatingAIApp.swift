@@ -13,7 +13,7 @@ import OpenAI
 
 
 @main
-struct floating_aiApp: App {
+struct FloatingAIApp: App {
     @StateObject private var appState = AppState()
     @StateObject private var permissionService  = PermissionsService()
     
