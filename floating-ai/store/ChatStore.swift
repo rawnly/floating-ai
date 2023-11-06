@@ -113,7 +113,7 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
     init() {
         self.$currentMessage
             .receive(on: RunLoop.main)
-            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .throttle(for: .milliseconds(200), scheduler: DispatchQueue.main, latest: true)
             .sink { value in
                 for item in value {
                     let message = item.value;
