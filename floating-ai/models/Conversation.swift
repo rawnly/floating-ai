@@ -23,9 +23,7 @@ final class Conversation {
     var visibleMessages: [Message] {
         get {
             self.messages.filter {
-                $0.role != .system 
-                    && $0.role != .function
-                    && !$0.content.isEmpty
+                !$0.content.isEmpty
             }
         }
     }
