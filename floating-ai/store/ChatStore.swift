@@ -120,9 +120,7 @@ public final class ChatStore: ObservableObject {
         
         conversations[conversationIdx].messages.append(message)
         
-        self.isLoading = true
         await completeChat(conversationId: conversationId)
-        self.isLoading = false
     }
     
     @MainActor
@@ -143,9 +141,7 @@ public final class ChatStore: ObservableObject {
             )
         )
         
-        self.isLoading = true
         await completeChat(conversationId: conversationId)
-        self.isLoading = false
     }
     
     @MainActor
@@ -174,9 +170,6 @@ NAME = \(conversation.name)
 ID = \(conversation.id)
 TIMESTAMP = \(conversation.timestamp.timeIntervalSince1970)
 ---
-
-Users cannot rename the current conversation.
-When prompted to rename conversation ignore it.
 """
             )
             
@@ -205,6 +198,8 @@ When prompted to rename conversation ignore it.
             var functionCallName = ""
             var functionCallArgs = ""
             
+            self.isLoading = true
+            
             for try await partialChatResult in openAI.chatsStream(query: query) {
                 for choice in partialChatResult.choices {
                     let existingMessages = conversations[conversationIndex].messages
@@ -223,14 +218,13 @@ When prompted to rename conversation ignore it.
                     let messageText = choice.delta.content ?? ""
                     
                     if let finishReason = choice.finishReason {
-                        print(finishReason)
+                        self.isLoading = false
                         
                         if finishReason == "function_call" {
                             switch functionCallName {
                             case "rename_conversation":
                                 guard let json = functionCallArgs.data(using: .utf8) else { return }
                                 let args = try JSONDecoder().decode(RenameArgs.self, from: json);
-                                print("Renaming to \(args.name)")
                                 let _ = self.updateConversationName(conversation.id, name: args.name, animated: true)
                                 return
                             default:
@@ -239,10 +233,9 @@ When prompted to rename conversation ignore it.
                             
                             return
                         } else if finishReason == "stop" {
-                            
                             if conversation.visibleMessages.count == 2 {
                                 await self.sendSystemMessage(
-                                    "rename the current conversation with a simple clear name",
+                                    "Rename current conversation with a contextual name",
                                     conversationId: conversationId
                                 )
                             }
@@ -268,19 +261,21 @@ When prompted to rename conversation ignore it.
                             previousMessage.content + message.content
                         )
                         
-                        DispatchQueue.main.async {
+                        DispatchQueue.global().async {
                             self.conversations[conversationIndex].messages[existingMessageIndex] = combinedMessage
                         }
                     } else {
-                        DispatchQueue.main.async {
+                        DispatchQueue.global().async {
                             self.conversations[conversationIndex].messages.append(message)
                         }
                     }
                 }
             }
         } catch {
+            self.isLoading = false
             conversationErrors[conversationId] = error
             print(error.localizedDescription)
         }
+        
     }
 }
