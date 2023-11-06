@@ -25,10 +25,47 @@ struct Message: Identifiable, Equatable {
     }
 }
 
+extension Message {
+    static func +(lhs: Message, rhs: Message) -> Message {
+        return Message(
+            id: rhs.id,
+            kind: rhs.role,
+            chat_id: rhs.chat_id,
+            lhs.content + rhs.content
+        )
+    }
+}
 
 extension Message {
     func toChat() -> Chat {
         Chat(role: self.role, content: self.content)
+    }
+    
+    static func system(_ conversationId: Conversation.ID, _ content: String) -> Self {
+        return Message(
+            id: UUID().uuidString,
+            kind: .system,
+            chat_id: conversationId,
+            content
+        )
+    }
+    
+    static func user(_ conversationId: Conversation.ID, _ content: String) -> Self {
+        return Message(
+            id: UUID().uuidString,
+            kind: .user,
+            chat_id: conversationId,
+            content
+        )
+    }
+    
+    static func function(_ conversationId: Conversation.ID, _ content: String) -> Self {
+        return Message(
+            id: UUID().uuidString,
+            kind: .function,
+            chat_id: conversationId,
+            content
+        )
     }
 }
 

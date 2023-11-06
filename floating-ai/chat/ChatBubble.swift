@@ -28,43 +28,33 @@ struct ChatBubble: View {
         HStack {
             switch message.role {
             case .assistant:
-                Text(message.content)
+                Markdown(message.content)
+                    .markdownCodeSyntaxHighlighter(.splash(theme:.sundellsColors(withFont: .init(size: 14.0))))
+                    .markdownBlockStyle(\.codeBlock, body: { configuration in
+                        configuration
+                            .padding()
+                            .cornerRadius(8)
+                            .markdownMargin(top: 5, bottom: 5)
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(Color.secondary.opacity(0.1))
+                                    .stroke(.secondary.opacity(0.1), lineWidth: 1)
+                            }
+                    })
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                    .background(assistantColor)
-                    .foregroundStyle(assistantForeground)
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: cornerRadius,
-                            style: .continuous
-                        )
-                    )
                 Spacer(minLength: horizontalSpacing)
-//                Button(action: {}) {
-//                    Image(systemName: "square.and.arrow.up")
-//                }
-//                .buttonStyle(.borderedProminent)
             case .user:
                 Spacer(minLength: horizontalSpacing)
                 Text(message.content)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
-                    .background(.ultraThinMaterial)
-                    .border(.white.opacity(0.1))
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: cornerRadius,
-                            style: .continuous
-                        )
-                    )
-            default:
+            case .function:
                 Spacer()
                 Text(message.content)
                     .font(.footnote.monospaced())
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 6)
                     .foregroundColor(Color.secondary.opacity(0.5))
-                    .background(assistantColor.opacity(0.05))
+                    .padding(.vertical, 20)
                     .clipShape(
                         RoundedRectangle(
                             cornerRadius: 5,
@@ -72,24 +62,28 @@ struct ChatBubble: View {
                         )
                     )
                 Spacer()
+            default:
+                EmptyView()
             }
         }
     }
 }
 
 #Preview {
-    VStack {
-        
+    VStack(alignment: .leading) {
         ChatBubble(
             message: Message(id: "", kind: .user, chat_id: .init(), "Hello")
         )
         
         ChatBubble(
-            message: Message(id: "", kind: .system, chat_id: .init(), "Event")
+            message: Message(id: "", kind: .function, chat_id: .init(), "conversation renamed")
         )
         
         ChatBubble(
             message: Message(id: "", kind: .assistant, chat_id: .init(), "Hello how can I assist you today?")
         )
+        
+        Spacer()
     }
+    .padding()
 }

@@ -119,7 +119,6 @@ struct ChatView: View {
             switch result {
             case .success(let response):
                 if let call = response.choices.first?.delta.functionCall {
-                    print(call)
                     return
                 }
                 
@@ -132,8 +131,6 @@ struct ChatView: View {
                 guard let index = targetIndex else {
                     return
                 }
-                
-//                self.messages[index].id = response;
                 
                 if content.isEmpty {
                     self.messages[index].content = content

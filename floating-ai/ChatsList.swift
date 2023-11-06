@@ -6,12 +6,31 @@
 //
 
 import SwiftUI
+import Combine
+
+final class NotificationPublisher: ObservableObject {
+    enum Event: Hashable {
+        case ChatRenamed(String)
+    }
+    
+    let event: AnyPublisher<Event, Never>
+    private let subject = PassthroughSubject<Event, Never>()
+    
+    init() {
+        event = subject.eraseToAnyPublisher()
+    }
+    
+    func send(_ event: Event) {
+        self.subject.send(event)
+    }
+}
 
 struct ChatsList: View {
     @ObservedObject var chatStore: ChatStore
     @State var text: String = ""
     @State var columnVisibility: NavigationSplitViewVisibility = .detailOnly
-    @State var isLoading = false
+    
+    @State var notificationContent: String?
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -24,58 +43,104 @@ struct ChatsList: View {
                 }
             )) {
                 ForEach($chatStore.conversations, id: \.id) { $conversation in
-                    Text(conversation.name)
+                    ZStack(alignment: .leading) {
+                        Text(conversation.name)
+                        
+                        if chatStore.loadingMap[conversation.id] == true {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle())
+                                .controlSize(.mini)
+                                .transition(.opacity)
+                                .padding(.leading, 5)
+                        }
+                        
+                    }
                 }
             }
             .toolbar(removing: chatStore.conversations.isEmpty ? .sidebarToggle : nil)
         } detail: {
             if let conversation = chatStore.selectedConversation {
-                ZStack(alignment: .bottom) {
-                    ScrollViewReader { scrollView in
-                        ScrollView {
-                            VStack {
-                                ForEach(conversation.visibleMessages) { message in
-                                    ChatBubble(message: message)
+                let isLoading = chatStore.loadingMap[conversation.id] ?? false
+                
+                ZStack(alignment: .top) {
+                    HStack {
+                        if let notificationContent = self.notificationContent {
+                            Spacer()
+                            NotificationBubble(text: notificationContent)
+                            Spacer()
+                        }
+                    }
+                    .padding(.top, 30)
+                    .animation(.easeInOut, value: self.notificationContent)
+                    .zIndex(10)
+                    .onReceive(self.chatStore.notificationsPublisher.event) { event in
+                        switch event {
+                        case NotificationPublisher.Event.ChatRenamed(_):
+                            self.notificationContent = "Conversation renamed"
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                self.notificationContent = nil
+                            }
+                            break
+                        }
+                    }
+                    
+                    Spacer()
+                    ZStack(alignment: .bottom) {
+                        ScrollViewReader { scrollView in
+                            ScrollView {
+                                VStack {
+                                    ForEach(conversation.visibleMessages) { message in
+                                        ChatBubble(message: message)
+                                    }
+                                }
+                                .padding(.top, 20)
+                                .padding(.horizontal, 20)
+                                .padding(.bottom, 80)
+                                
+                                if let error = chatStore.conversationErrors[conversation.id] {
+                                    HStack(alignment: .center) {
+                                        Spacer()
+                                        Text(error.localizedDescription)
+                                            .foregroundStyle(.red)
+                                            .font(.system(size: 14).monospaced())
+                                        Spacer()
+                                    }
                                 }
                             }
-                            .padding(.top, 20)
-                            .padding(.horizontal, 20)
-                            .padding(.bottom, 80)
+                            .id(UUID())
+                            .background(.clear)
+                            .cornerRadius(8)
                         }
-                        .id(UUID())
-                        .background(.clear)
-                        .cornerRadius(8)
-                    }
-                    .zIndex(0)
-                    
-                    VStack(alignment: .trailing) {
-                        if conversation.messages.isEmpty {
-                            Spacer()
-                            EmptyPlaceholder()
-                            Spacer()
-                        }
+                        .zIndex(0)
                         
-                        ChatTextField(
-                            chatStore.isLoading ? "Please wait..." : "Ask AI anything..",
-                            text: $text,
-                            isLoading: chatStore.isLoading,
-                            isEmpty: conversation.messages.isEmpty
-                        ) {
-                            let message = Message(
-                                id: UUID().uuidString,
-                                kind: .user,
-                                chat_id: conversation.id,
-                                self.text
-                            )
-                            self.text = ""
+                        VStack(alignment: .trailing) {
+                            if conversation.messages.isEmpty {
+                                Spacer()
+                                EmptyPlaceholder()
+                                Spacer()
+                            }
                             
-                            Task {
-                                await chatStore.sendMessage(message, conversationId: conversation.id)
+                            ChatTextField(
+                                isLoading ? "Please wait..." : "Ask AI anything..",
+                                text: $text,
+                                isLoading: isLoading,
+                                isEmpty: conversation.messages.isEmpty
+                            ) {
+                                let content = self.text;
+                                self.text = ""
+                                self.chatStore.sendMessage(.user(conversation.id, content))
+                                
+//                                Task {
+//                                    await chatStore.sendMessage(
+//                                        .user(conversation.id, content)
+//                                    )
+//                                }
                             }
                         }
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 20)
                     }
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 20)
                 }
                 .navigationTitle(conversation.name)
             } else {
@@ -87,24 +152,16 @@ struct ChatsList: View {
                     ChatTextField(
                         chatStore.isLoading ? "Please wait..." : "Ask AI anything..",
                         text: $text,
-                        isLoading: chatStore.isLoading,
+                        isLoading: false,
                         isEmpty: true
-
                     ) {
                         let conversationId = chatStore.createConversation()
                         
-                        let message = Message(
-                            id: UUID().uuidString,
-                            kind: .user,
-                            chat_id: conversationId,
-                            self.text
-                        )
+                        let content = self.text
                         self.text = ""
                         chatStore.selectConversation(conversationId)
                         
-                        Task {
-                            await chatStore.sendMessage(message, conversationId: conversationId)
-                        }
+                        self.chatStore.sendMessage(.user(conversationId, content))
                     }
                 }
                 .padding(20)
@@ -128,10 +185,14 @@ struct ChatsList: View {
                 .disabled(chatStore.selectedConversationID == nil)
                 
                 Button(action: {
-                    let lastConversationId = chatStore.conversations.last?.id
-                    chatStore.deleteConversation(chatStore.selectedConversationID)
-                    chatStore.selectConversation(lastConversationId)
-                    self.columnVisibility = .detailOnly
+                    let selectedId = chatStore.selectedConversationID;
+                    chatStore.deleteConversation(selectedId)
+                    
+                    if let lastConversation = chatStore.conversations.last(where: {
+                        $0.id != selectedId
+                    }) {
+                        chatStore.selectConversation(lastConversation.id)
+                    }
                 }) {
                     Label("Delete Conversation", systemImage: "trash")
                 }
@@ -149,6 +210,11 @@ struct ChatsList: View {
                 }) {
                     Label("Add Conversation", systemImage: "plus")
                 }
+            }
+        }
+        .onAppear {
+            withAnimation {
+                self.columnVisibility = .detailOnly
             }
         }
     }
@@ -197,3 +263,6 @@ struct EmptyPlaceholder: View {
 }
 
 
+#Preview {
+    ChatsList(chatStore: .init())
+}

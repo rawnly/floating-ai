@@ -9,10 +9,12 @@
 /* Begin PBXBuildFile section */
 		9AAAC9C82AF80F1000E046D0 /* FocusWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */; };
 		9AAAC9CB2AF8112D00E046D0 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */; };
+		9AAAC9CD2AF85CF500E046D0 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */; };
+		9AAAC9CF2AF9344F00E046D0 /* NotificationBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CE2AF9344F00E046D0 /* NotificationBubble.swift */; };
 		9AC633FD2AF7BAC900AAACC2 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC633FC2AF7BAC900AAACC2 /* Preferences.swift */; };
 		9AC633FF2AF7CAA400AAACC2 /* DockIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC633FE2AF7CAA400AAACC2 /* DockIcon.swift */; };
 		9AC634032AF7DF4500AAACC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */; };
-		9AD4DBC02AF59DA2008F83DB /* floating_aiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBBF2AF59DA2008F83DB /* floating_aiApp.swift */; };
+		9AD4DBC02AF59DA2008F83DB /* FloatingAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */; };
 		9AD4DBC42AF59DA2008F83DB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC32AF59DA2008F83DB /* Conversation.swift */; };
 		9AD4DBC62AF59DA3008F83DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC52AF59DA3008F83DB /* Assets.xcassets */; };
 		9AD4DBC92AF59DA3008F83DB /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC82AF59DA3008F83DB /* Preview Assets.xcassets */; };
@@ -30,7 +32,6 @@
 		9AD4DC122AF6B694008F83DB /* ChatTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC112AF6B694008F83DB /* ChatTextField.swift */; };
 		9AD4DC152AF6B6CF008F83DB /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC142AF6B6CF008F83DB /* ChatMessage.swift */; };
 		9AD4DC172AF6B722008F83DB /* ChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC162AF6B722008F83DB /* ChatMessageView.swift */; };
-		9AD4DC192AF6B7E4008F83DB /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC182AF6B7E4008F83DB /* ChatView.swift */; };
 		9AD4DC1B2AF6DBA3008F83DB /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC1A2AF6DBA3008F83DB /* ChatStore.swift */; };
 		9AD4DC1D2AF6E199008F83DB /* ChatsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */; };
 /* End PBXBuildFile section */
@@ -38,12 +39,14 @@
 /* Begin PBXFileReference section */
 		9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusWindow.swift; sourceTree = "<group>"; };
 		9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
+		9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		9AAAC9CE2AF9344F00E046D0 /* NotificationBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationBubble.swift; sourceTree = "<group>"; };
 		9AC633FC2AF7BAC900AAACC2 /* Preferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		9AC633FE2AF7CAA400AAACC2 /* DockIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockIcon.swift; sourceTree = "<group>"; };
 		9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AC634042AF7E1F800AAACC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		9AD4DBBC2AF59DA2008F83DB /* floating-ai.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "floating-ai.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9AD4DBBF2AF59DA2008F83DB /* floating_aiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = floating_aiApp.swift; sourceTree = "<group>"; };
+		9AD4DBBC2AF59DA2008F83DB /* Floating AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Floating AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingAIApp.swift; sourceTree = "<group>"; };
 		9AD4DBC32AF59DA2008F83DB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		9AD4DBC52AF59DA3008F83DB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9AD4DBC82AF59DA3008F83DB /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -57,7 +60,6 @@
 		9AD4DC112AF6B694008F83DB /* ChatTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextField.swift; sourceTree = "<group>"; };
 		9AD4DC142AF6B6CF008F83DB /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		9AD4DC162AF6B722008F83DB /* ChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageView.swift; sourceTree = "<group>"; };
-		9AD4DC182AF6B7E4008F83DB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		9AD4DC1A2AF6DBA3008F83DB /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
 		9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -82,6 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */,
+				9AAAC9CE2AF9344F00E046D0 /* NotificationBubble.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -117,7 +120,7 @@
 		9AD4DBBD2AF59DA2008F83DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9AD4DBBC2AF59DA2008F83DB /* floating-ai.app */,
+				9AD4DBBC2AF59DA2008F83DB /* Floating AI.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -133,7 +136,7 @@
 				9AD4DBFF2AF6A4FF008F83DB /* extensions */,
 				9AD4DBF62AF69EFF008F83DB /* markdown */,
 				9AD4DBF52AF69EF6008F83DB /* chat */,
-				9AD4DBBF2AF59DA2008F83DB /* floating_aiApp.swift */,
+				9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */,
 				9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */,
 				9AD4DBD62AF65725008F83DB /* SettingsView.swift */,
 				9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */,
@@ -158,7 +161,7 @@
 			children = (
 				9AD4DC112AF6B694008F83DB /* ChatTextField.swift */,
 				9AD4DC162AF6B722008F83DB /* ChatMessageView.swift */,
-				9AD4DC182AF6B7E4008F83DB /* ChatView.swift */,
+				9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */,
 			);
 			path = chat;
 			sourceTree = "<group>";
@@ -207,9 +210,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9AD4DBBB2AF59DA2008F83DB /* floating-ai */ = {
+		9AD4DBBB2AF59DA2008F83DB /* Floating AI */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9AD4DBCD2AF59DA3008F83DB /* Build configuration list for PBXNativeTarget "floating-ai" */;
+			buildConfigurationList = 9AD4DBCD2AF59DA3008F83DB /* Build configuration list for PBXNativeTarget "Floating AI" */;
 			buildPhases = (
 				9AD4DBB82AF59DA2008F83DB /* Sources */,
 				9AD4DBB92AF59DA2008F83DB /* Frameworks */,
@@ -219,7 +222,7 @@
 			);
 			dependencies = (
 			);
-			name = "floating-ai";
+			name = "Floating AI";
 			packageProductDependencies = (
 				9AD4DBD12AF65632008F83DB /* HotKey */,
 				9AD4DBD42AF6570A008F83DB /* KeyboardShortcuts */,
@@ -228,7 +231,7 @@
 				9AD4DBFD2AF6A1C8008F83DB /* Splash */,
 			);
 			productName = "floating-ai";
-			productReference = 9AD4DBBC2AF59DA2008F83DB /* floating-ai.app */;
+			productReference = 9AD4DBBC2AF59DA2008F83DB /* Floating AI.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -268,7 +271,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9AD4DBBB2AF59DA2008F83DB /* floating-ai */,
+				9AD4DBBB2AF59DA2008F83DB /* Floating AI */,
 			);
 		};
 /* End PBXProject section */
@@ -301,9 +304,10 @@
 				9AD4DC1D2AF6E199008F83DB /* ChatsList.swift in Sources */,
 				9AAAC9C82AF80F1000E046D0 /* FocusWindow.swift in Sources */,
 				9AD4DC152AF6B6CF008F83DB /* ChatMessage.swift in Sources */,
-				9AD4DC192AF6B7E4008F83DB /* ChatView.swift in Sources */,
+				9AAAC9CD2AF85CF500E046D0 /* ChatBubble.swift in Sources */,
 				9AD4DBE12AF65FC4008F83DB /* EffectView.swift in Sources */,
-				9AD4DBC02AF59DA2008F83DB /* floating_aiApp.swift in Sources */,
+				9AD4DBC02AF59DA2008F83DB /* FloatingAIApp.swift in Sources */,
+				9AAAC9CF2AF9344F00E046D0 /* NotificationBubble.swift in Sources */,
 				9AD4DC102AF6AED1008F83DB /* VisualEffectBackground.swift in Sources */,
 				9AD4DC172AF6B722008F83DB /* ChatMessageView.swift in Sources */,
 				9AD4DBDF2AF65E16008F83DB /* SettingsForm.swift in Sources */,
@@ -507,7 +511,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9AD4DBCD2AF59DA3008F83DB /* Build configuration list for PBXNativeTarget "floating-ai" */ = {
+		9AD4DBCD2AF59DA3008F83DB /* Build configuration list for PBXNativeTarget "Floating AI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9AD4DBCE2AF59DA3008F83DB /* Debug */,

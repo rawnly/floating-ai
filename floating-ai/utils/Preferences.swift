@@ -54,8 +54,6 @@ final class Preferences {
     @StoredValue("floatingWindow", false)
     static var floatingWindow: Bool {
         didSet {
-            print(NSApplication.shared.windows)
-            
             for window in NSApplication.shared.windows {
                 guard let identifier = window.identifier else { return }
                 if identifier.rawValue == "chat" {

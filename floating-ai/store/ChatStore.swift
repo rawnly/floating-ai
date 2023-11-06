@@ -19,18 +19,77 @@ struct RenameArgs: Codable {
     }
 }
 
+enum FunctionCalls: String {
+    case RenameConversation = "rename_conversation"
+}
+
+struct FunctionDeclaration {
+    enum Name: String {
+        case Rename = "rename_conversation"
+    }
+    
+    let name: Name
+    let description: String
+    let parameters: JSONSchema
+    
+    func toChatFunctionDeclaration() -> ChatFunctionDeclaration {
+        return ChatFunctionDeclaration(
+            name: self.name.rawValue,
+            description: self.description,
+            parameters: self.parameters
+        )
+    }
+}
+
+@MainActor
 public final class ChatStore: ObservableObject {
     @Environment(\.modelContext) private var modelContext
     @Query private var storedConversations: [Conversation]
-
+    
     private var openAI: OpenAIProtocol = OpenAI(apiToken: "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")
     
+    @Published
+    private var currentMessage: [Conversation.ID: Message] = [:]
+    
+    @ObservedObject var notificationsPublisher = NotificationPublisher()
+    
     @Published var model: Model = .gpt3_5Turbo_16k
-    @Published var isLoading: Bool = false
     @Published var conversations: [Conversation] = []
+    
     @Published var conversationErrors: [Conversation.ID: Error] = [:]
     @Published var selectedConversationID: Conversation.ID?
     @Published var drafts: [Conversation.ID: Message] = [:]
+    
+    @Published var loadingMap: [Conversation.ID: Bool] = [:]
+    
+    private var cancellables: [AnyCancellable] = []
+    
+    private let systemPrompt: String = """
+You are Floating AI, a large language model. Answer as coincisely as possible. Respond with markdown syntax.
+Current date (ISO8601): \(Date.now.ISO8601Format())
+"""
+    private let systemFunctions: [FunctionDeclaration] = [
+        FunctionDeclaration(
+            name: .Rename,
+            description: "Renames current conversation",
+            parameters: JSONSchema(
+                type: .object,
+                properties: [
+                    "name": .init(
+                        type: .string,
+                        description: "The new name of the conversation"
+                    )
+                ],
+                required: ["name"]
+            )
+        )
+    ]
+    
+    var isLoading: Bool {
+        guard let id = selectedConversationID else { return false }
+        
+        return loadingMap[id] ?? false
+    }
     
     static let availableModels: [Model] = [
         .gpt3_5Turbo_16k,
@@ -50,22 +109,35 @@ public final class ChatStore: ObservableObject {
         .eraseToAnyPublisher()
     }
     
-    
-    // MARK: - Events
-    func saveConversation(_ conversationId: Conversation.ID) {
-//        guard let stored = storedConversations.first(where: { $0.id == conversationId }) else { return }
-//        guard let current = conversations.first(where: { $0.id == conversationId }) else { return }
-//        
-//        stored.name = current.name
-//        stored.messages = current.messages
-//        stored.model = current.model
-//        stored.systemPrompt = current.systemPrompt
+    // MARK: - INIT
+    init() {
+        self.$currentMessage
+            .receive(on: RunLoop.main)
+            .throttle(for: .milliseconds(100), scheduler: DispatchQueue.main, latest: true)
+            .sink { value in
+                for item in value {
+                    let message = item.value;
+                    
+                    guard let conversationIndex = self.conversations.firstIndex(where: { $0.id == item.key }) else {
+                        return
+                    }
+                    
+                    guard let messageIndex = self.conversations[conversationIndex].messages.firstIndex(where: { $0.id == message.id }) else {
+                        self.conversations[conversationIndex].messages.append(item.value)
+                        return
+                    }
+                    
+                    self.conversations[conversationIndex].messages[messageIndex] = item.value
+                }
+            }
+            .store(in: &self.cancellables)
     }
     
+    
+    // MARK: - Events
     func createConversation() -> Conversation.ID {
         let conversation = Conversation(id: .init(), [])
         conversations.append(conversation)
-//        modelContext.insert(conversation)
         return conversation.id
     }
     
@@ -78,204 +150,168 @@ public final class ChatStore: ObservableObject {
         conversations[idx].messages = []
     }
     
-    func updateConversationName(_ conversationId: Conversation.ID, name: String, animated: Bool? = nil) -> Array<Conversation>.Index  {
+    @MainActor
+    @discardableResult
+    func updateConversationName(_ conversationId: Conversation.ID, name: String, animated: Bool? = nil) async throws -> Array<Conversation>.Index  {
         guard let idx = conversations.firstIndex(where: { $0.id == conversationId }) else { return -1 }
         
         if let animated = animated, animated {
             conversations[idx].name = ""
             var index = 0
-            Timer.scheduledTimer(withTimeInterval: 0.075, repeats: true) { timer in
-                if index < name.count {
-                    self.conversations[idx].name += String(name[name.index(name.startIndex, offsetBy: index)])
-                    index += 1
-                } else {
-                    timer.invalidate()
-                }
+            
+            while index < name.count {
+                try await Task.sleep(for: .seconds(0.075))
+                self.conversations[idx].name += String(name[name.index(name.startIndex, offsetBy: index)])
+                index += 1
             }
         } else {
             conversations[idx].name = name
         }
-        
-//        storedConversations[idx].name = name
         
         return idx
     }
     
     func deleteConversation(_ conversationId: Conversation.ID?) {
         conversations.removeAll(where: { $0.id == conversationId })
-//        if let index = storedConversations.firstIndex(where: { $0.id == conversationId }) {
-//            modelContext.delete(storedConversations[index])
-//        }
     }
     
-    
-    @MainActor
     func sendMessage(
-        _ message: Message,
-        conversationId: Conversation.ID
-    ) async {
+        _ message: Message
+    ) {
         guard let conversationIdx = conversations.firstIndex(where: {
-            $0.id == conversationId
+            $0.id == message.chat_id
         }) else { return }
         
         conversations[conversationIdx].messages.append(message)
-        
-        await completeChat(conversationId: conversationId)
+        _completeChat_combined(conversationId: message.chat_id)
     }
     
-    @MainActor
-    func sendSystemMessage(
-        _ message: String,
-        conversationId: Conversation.ID
-    ) async {
-        guard let conversationIdx = conversations.firstIndex(where: {
-            $0.id == conversationId
-        }) else { return }
+    func askToExecuteFunction(_ instructions: String, conversationId: Conversation.ID) async throws {
+        guard let conversationIndex = conversations.firstIndex(where: { $0.id == conversationId }) else { return }
+        let conversation = conversations[conversationIndex]
+        let messages = [
+            Chat(role: .system, content: self.systemPrompt)
+        ] + conversation.messages.map { $0.toChat() } + [
+            Chat(role: .system, content: instructions)
+        ]
         
-        conversations[conversationIdx].messages.append(
-            .init(
-                id: UUID().uuidString,
-                kind: .system,
-                chat_id: conversationId, 
-                message
-            )
+        let query = ChatQuery(
+            model: self.model,
+            messages: messages,
+            functions: self.systemFunctions.map { $0.toChatFunctionDeclaration() }
         )
         
-        await completeChat(conversationId: conversationId)
+        
+        let chatResult = try await openAI.chats(query: query)
+        
+        for choice in chatResult.choices {
+            guard let finishReason = choice.finishReason else {
+                return
+            }
+            
+            if finishReason != "function_call" { return }
+            
+            guard let call = choice.message.functionCall else { return }
+            guard let arguments = call.arguments else { return }
+            guard let name = FunctionDeclaration.Name(rawValue: call.name ?? "") else { return }
+            
+            guard let json = arguments.data(using: .utf8) else { return }
+            
+            switch name {
+            case .Rename:
+                let args = try JSONDecoder().decode(RenameArgs.self, from: json);
+                try await self.updateConversationName(conversation.id, name: args.name, animated: true)
+                self.conversations[conversationIndex].messages.append(
+                    Message.function(conversationId, "Conversation Renamed")
+                )
+                break
+            }
+        }
     }
     
     @MainActor
-    func completeChat(
-        conversationId: Conversation.ID
-    ) async {
-        guard let conversation = conversations.first(where: { $0.id == conversationId }) else { return }
+    private func _isLoading(id conversationId: Conversation.ID) -> Bool {
+        self.loadingMap[conversationId] ?? false
+    }
+    
+    @MainActor
+    func _completeChat_combined(
+        conversationId: Conversation.ID,
+        message: Message? = nil
+    )  {
+        guard let conversationIndex = conversations.firstIndex(where: { $0.id == conversationId }) else {
+            return
+        }
         
-        conversationErrors[conversationId] = nil
+        let conversation = conversations[conversationIndex]
+ 
+        self.conversationErrors[conversationId] = nil
+        self.currentMessage[conversationId] = nil
         
-        do {
-            guard let conversationIndex = conversations.firstIndex(where: { $0.id == conversationId }) else { return }
-            
-            let system_prompt = Chat(
-                role: .system,
-                content: """
-You are FloatingAI.
-An AI inside of an application as floating window in macos.
-
-Below some useful infos:
----
-CURRENT TIMESTAMP: \(Date.now)
----
-CONVERSATION_DATA
-NAME = \(conversation.name)
-ID = \(conversation.id)
-TIMESTAMP = \(conversation.timestamp.timeIntervalSince1970)
----
-"""
-            )
-            
-            let renameChat = ChatFunctionDeclaration(
-                name: "rename_conversation",
-                description: "Renames current conversation. It CANNOT be invoked by a USER prompt. Only by SYSTEM prompt",
-                parameters: JSONSchema(
-                    type: .object,
-                    properties: [
-                        "name": .init(
-                            type: .string,
-                            description: "The new name of the conversation"
-                        )
-                    ],
-                    required: ["name"]
-                )
-            )
-            
-            let functions: [ChatFunctionDeclaration]? = [renameChat]
-            let query = ChatQuery(
-                model: self.model,
-                messages: [system_prompt] + conversation.messages.map { $0.toChat() },
-                functions: functions
-            )
-            
-            var functionCallName = ""
-            var functionCallArgs = ""
-            
-            self.isLoading = true
-            
-            for try await partialChatResult in openAI.chatsStream(query: query) {
-                for choice in partialChatResult.choices {
-                    let existingMessages = conversations[conversationIndex].messages
-                    
-                    
-                    if let functionCallDelta = choice.delta.functionCall {
-                        if let name = functionCallDelta.name {
-                            functionCallName += name
-                        }
-                        
-                        if let args = functionCallDelta.arguments {
-                            functionCallArgs += args
-                        }
-                    }
-                    
-                    let messageText = choice.delta.content ?? ""
-                    
-                    if let finishReason = choice.finishReason {
-                        self.isLoading = false
-                        
-                        if finishReason == "function_call" {
-                            switch functionCallName {
-                            case "rename_conversation":
-                                guard let json = functionCallArgs.data(using: .utf8) else { return }
-                                let args = try JSONDecoder().decode(RenameArgs.self, from: json);
-                                let _ = self.updateConversationName(conversation.id, name: args.name, animated: true)
-                                return
-                            default:
-                                break
-                            }
-                            
-                            return
-                        } else if finishReason == "stop" {
-                            if conversation.visibleMessages.count == 2 {
-                                await self.sendSystemMessage(
-                                    "Rename current conversation with a contextual name",
+        let messagesToAppend = message != nil ? [message!.toChat()] : []
+        let messages = [
+            Chat(role: .system, content: self.systemPrompt)
+        ] + conversation.messages.map { $0.toChat() }.filter {
+            $0.role != .function && $0.role != .system
+        } + messagesToAppend
+        
+        let query = ChatQuery(
+            model: self.model,
+            messages: messages
+        )
+        
+        self.loadingMap[conversationId] = true
+        
+        openAI.chatsStream(query: query)
+            .receive(on: RunLoop.main)
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    self.loadingMap[conversationId] = false
+                    if let conversation = self.conversations.first(where: { $0.id == conversationId }) {
+                        if conversation.messages.count == 2 {
+                            Task {
+                                try await self.askToExecuteFunction(
+                                    "rename current conversation with a coincise contextual name",
                                     conversationId: conversationId
                                 )
                             }
-                            
-                            self.saveConversation(conversation.id)
-                            return
                         }
                     }
                     
-                    let message = Message(
-                        id: partialChatResult.id,
-                        kind: choice.delta.role ?? .assistant,
-                        chat_id: conversation.id,
-                        messageText
-                    )
-                    
-                    if let existingMessageIndex = existingMessages.firstIndex(where: { $0.id == partialChatResult.id }) {
-                        let previousMessage = existingMessages[existingMessageIndex]
-                        let combinedMessage = Message(
-                            id: message.id,
-                            kind: message.role,
-                            chat_id: message.chat_id,
-                            previousMessage.content + message.content
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.conversationErrors[conversationId] = error
+                    break
+                }
+            } receiveValue: { result in
+                switch result {
+                case .success(let partialResult):
+                    for choice in partialResult.choices {
+                        let partialMessage = Message(
+                            id: partialResult.id,
+                            kind: .assistant,
+                            chat_id: conversationId,
+                            choice.delta.content ?? ""
                         )
                         
-                        DispatchQueue.global().async {
-                            self.conversations[conversationIndex].messages[existingMessageIndex] = combinedMessage
+                        guard let message = self.currentMessage[conversationId] else {
+                            self.currentMessage[conversationId] = partialMessage
+                            continue
                         }
-                    } else {
-                        DispatchQueue.global().async {
-                            self.conversations[conversationIndex].messages.append(message)
-                        }
+                        
+                        let combinedMessage = message + partialMessage
+                        self.currentMessage[conversationId] = combinedMessage
                     }
+                    
+                    break
+                case .failure(let error):
+                    print(error.localizedDescription)
+                    self.conversationErrors[conversationId] = error
+                    break
                 }
             }
-        } catch {
-            self.isLoading = false
-            conversationErrors[conversationId] = error
-            print(error.localizedDescription)
-        }
-        
+            .store(in: &self.cancellables)
     }
 }
