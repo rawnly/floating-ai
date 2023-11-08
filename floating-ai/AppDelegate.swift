@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @ObservedObject
     public var chatStore: ChatStore = ChatStore()
     
+    
     private var toolbar: NSToolbar!
     private var toolbarItems: [[String:String]] = [
         ["title": "Share", "icon": "gear", "identifier": NSToolbarItem.Identifier.toggleSidebarVisibility]
@@ -32,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         toolbar.allowsUserCustomization = false
         toolbar.delegate = self
         
-        NSApp.setActivationPolicy(Preferences.showDockIcon ? .regular : .accessory)
+        NSApp.setActivationPolicy(Preferences.standard.showDockIcon ? .regular : .accessory)
     }
     
     @objc
@@ -47,7 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         
-        
         window.titleVisibility = .hidden
         window.styleMask.insert(.fullSizeContentView)
         window.contentView?.wantsLayer = true
@@ -57,7 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         window.standardWindowButton(.zoomButton)?.isEnabled = false
         window.standardWindowButton(.miniaturizeButton)?.isEnabled = false
         
-        if Preferences.floatingWindow {
+        if Preferences.standard.floatingWindow {
             window.level = .modalPanel
         }
         

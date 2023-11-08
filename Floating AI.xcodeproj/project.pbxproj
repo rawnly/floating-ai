@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A0EB6A82AFB2AFA004536A9 /* WindowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0EB6A72AFB2AFA004536A9 /* WindowInfo.swift */; };
+		9A0EB6AA2AFB2B1E004536A9 /* Model+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0EB6A92AFB2B1E004536A9 /* Model+Extension.swift */; };
+		9A0EB6AC2AFB2B2A004536A9 /* dialogs in Resources */ = {isa = PBXBuildFile; fileRef = 9A0EB6AB2AFB2B2A004536A9 /* dialogs */; };
+		9A0EB6AE2AFB2B35004536A9 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 9A0EB6AD2AFB2B35004536A9 /* styles */; };
+		9A0EB6B02AFB2B64004536A9 /* AIModelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0EB6AF2AFB2B64004536A9 /* AIModelPicker.swift */; };
 		9AAAC9C82AF80F1000E046D0 /* FocusWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */; };
 		9AAAC9CB2AF8112D00E046D0 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */; };
 		9AAAC9CD2AF85CF500E046D0 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */; };
@@ -37,6 +42,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A0EB6A72AFB2AFA004536A9 /* WindowInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowInfo.swift; sourceTree = "<group>"; };
+		9A0EB6A92AFB2B1E004536A9 /* Model+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+Extension.swift"; sourceTree = "<group>"; };
+		9A0EB6AB2AFB2B2A004536A9 /* dialogs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dialogs; sourceTree = "<group>"; };
+		9A0EB6AD2AFB2B35004536A9 /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = styles; sourceTree = "<group>"; };
+		9A0EB6AF2AFB2B64004536A9 /* AIModelPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIModelPicker.swift; sourceTree = "<group>"; };
 		9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusWindow.swift; sourceTree = "<group>"; };
 		9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
@@ -83,8 +93,10 @@
 		9AAAC9C92AF8112700E046D0 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				9A0EB6AB2AFB2B2A004536A9 /* dialogs */,
 				9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */,
 				9AAAC9CE2AF9344F00E046D0 /* NotificationBubble.swift */,
+				9A0EB6AF2AFB2B64004536A9 /* AIModelPicker.swift */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -102,6 +114,7 @@
 			children = (
 				9AC633FC2AF7BAC900AAACC2 /* Preferences.swift */,
 				9AD4DBE02AF65FC4008F83DB /* EffectView.swift */,
+				9A0EB6A72AFB2AFA004536A9 /* WindowInfo.swift */,
 				9AC633FE2AF7CAA400AAACC2 /* DockIcon.swift */,
 				9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */,
 			);
@@ -139,6 +152,7 @@
 				9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */,
 				9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */,
 				9AD4DBD62AF65725008F83DB /* SettingsView.swift */,
+				9A0EB6AD2AFB2B35004536A9 /* styles */,
 				9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */,
 				9AD4DBDE2AF65E16008F83DB /* SettingsForm.swift */,
 				9AD4DBC52AF59DA3008F83DB /* Assets.xcassets */,
@@ -193,6 +207,7 @@
 		9AD4DBFF2AF6A4FF008F83DB /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9A0EB6A92AFB2B1E004536A9 /* Model+Extension.swift */,
 				9AD4DC0F2AF6AED1008F83DB /* VisualEffectBackground.swift */,
 			);
 			path = extensions;
@@ -281,7 +296,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A0EB6AC2AFB2B2A004536A9 /* dialogs in Resources */,
 				9AD4DBC92AF59DA3008F83DB /* Preview Assets.xcassets in Resources */,
+				9A0EB6AE2AFB2B35004536A9 /* styles in Resources */,
 				9AD4DBC62AF59DA3008F83DB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -298,11 +315,14 @@
 				9AC634032AF7DF4500AAACC2 /* AppDelegate.swift in Sources */,
 				9AAAC9CB2AF8112D00E046D0 /* PermissionsView.swift in Sources */,
 				9AD4DC1B2AF6DBA3008F83DB /* ChatStore.swift in Sources */,
+				9A0EB6AA2AFB2B1E004536A9 /* Model+Extension.swift in Sources */,
 				9AD4DBD72AF65725008F83DB /* SettingsView.swift in Sources */,
 				9AD4DBC42AF59DA2008F83DB /* Conversation.swift in Sources */,
 				9AC633FD2AF7BAC900AAACC2 /* Preferences.swift in Sources */,
 				9AD4DC1D2AF6E199008F83DB /* ChatsList.swift in Sources */,
 				9AAAC9C82AF80F1000E046D0 /* FocusWindow.swift in Sources */,
+				9A0EB6B02AFB2B64004536A9 /* AIModelPicker.swift in Sources */,
+				9A0EB6A82AFB2AFA004536A9 /* WindowInfo.swift in Sources */,
 				9AD4DC152AF6B6CF008F83DB /* ChatMessage.swift in Sources */,
 				9AAAC9CD2AF85CF500E046D0 /* ChatBubble.swift in Sources */,
 				9AD4DBE12AF65FC4008F83DB /* EffectView.swift in Sources */,

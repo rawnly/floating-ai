@@ -16,12 +16,14 @@ struct ChatTextField: View {
     var onSubmit: () -> Void
     var placeholder: String
     var isEmpty: Bool = false
+    var disabled: Bool = false
     
     init(
         _ placeholder: String,
         text: Binding<String>,
-        isLoading: Bool,
-        isEmpty: Bool,
+        isLoading: Bool=false,
+        isEmpty: Bool=true,
+        disabled: Bool=false,
         onSubmit: @escaping () -> Void
     ) {
         self.placeholder = placeholder
@@ -29,6 +31,7 @@ struct ChatTextField: View {
         self.isLoading = isLoading
         self.isEmpty = isEmpty
         self.onSubmit = onSubmit
+        self.disabled = disabled
     }
     
     @State
@@ -66,7 +69,7 @@ struct ChatTextField: View {
                         .textFieldStyle(PlainTextFieldStyle())
                         .font(Font.system(size: 12))
                         .disableAutocorrection(false)
-                        .disabled(self.isLoading)
+                        .disabled(self.disabled)
                         .padding()
                         .background(Color.clear)
                         .cornerRadius(8)

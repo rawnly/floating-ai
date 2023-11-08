@@ -5,8 +5,10 @@
 //  Created by Federico Vitale on 04/11/23.
 //
 
+import OpenAI
 import Foundation
 import SwiftUI
+import Combine
 import KeyboardShortcuts
 
 enum Tabs: Hashable {
@@ -32,68 +34,126 @@ extension SidebarItem {
 }
 
 struct SettingsView: View {
-    @State private var isOn = Preferences.floatingWindow
+    @ObservedObject var chatStore: ChatStore
     @State private var selectedTab = SidebarItem.general
-    @State private var showDockIcon = Preferences.showDockIcon
     
+    private var cancellables: [AnyCancellable] = []
     
-    var body: some View {
-        NavigationSplitView(columnVisibility: .constant(.all)) {
-            List(SidebarItem.allCases, selection: $selectedTab) { item in
-                NavigationLink(value: item) {
-                    Label(item.rawValue.localizedCapitalized, systemImage: item.icon)
-                }
-            }
-            .listStyle(.sidebar)
-            .toolbar(removing: .sidebarToggle)
-            .toolbarTitleDisplayMode(.inline)
-            .padding(.top, 20)
-        } detail: {
-            switch selectedTab {
-            case .ai:
-                SettingsForm {
+    @Preference(\.showDockIcon)
+    var showDockIcon
+    
+    @Preference(\.apiKey)
+    var apiKey
+    
+    @Preference(\.floatingWindow)
+    var isFloating
+    
+    @Preference(\.model)
+    var model
+    
+    @Preference(\.temperature)
+    var temperature
+    
+    init(chatStore: ChatStore) {
+        self.chatStore = chatStore
+        
+        Preferences
+            .standard
+            .preferencesChangedSubject
+            .filter { $0 == \Preferences.floatingWindow }
+            .sink { _ in
+                for window in NSApplication.shared.windows {
+                    guard let id = window.identifier else {
+                        continue
+                    }
                     
-                }
-            case .general:
-                SettingsForm {
-                    VStack(alignment: .leading)  {
-                        HStack {
-                            Text("App Activation")
-                            Spacer()
-                            KeyboardShortcuts.Recorder(for: .activateApp)
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 5)
-                        
-                        HStack {
-                            Text("Floating Window")
-                            Spacer()
-                            Toggle(isOn: $isOn) { EmptyView() }
-                            .onChange(of: isOn) { _, newValue in
-                                Preferences.floatingWindow = newValue
-                            }
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 5)
-                        
-                        HStack {
-                            Text("Show Dock Icon")
-                            Spacer()
-                            Toggle(isOn: $showDockIcon) {
-                                EmptyView()
-                            }
-                            .onChange(of: showDockIcon) { _, newValue in
-                                Preferences.showDockIcon = newValue
-                            }
-                        }
-                        .padding(.vertical, 5)
-                        .padding(.horizontal, 5)
+                    if id.rawValue == "chat" {
+                        window.level = Preferences.standard.floatingWindow ? .floating : .normal
                     }
                 }
             }
+            .store(in: &self.cancellables)
+        
+        Preferences
+            .standard
+            .preferencesChangedSubject
+            .filter { $0 == \Preferences.showDockIcon }
+            .sink { _ in
+                DockIcon.isVisible = Preferences.standard.showDockIcon
+            }
+            .store(in: &self.cancellables)
+    }
+    
+    var body: some View {
+        TabView {
+            SettingsForm {
+                HStack {
+                    Text("App Activation")
+                    Spacer()
+                    KeyboardShortcuts.Recorder(for: .activateApp)
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 5)
+                
+                HStack {
+                    Text("Floating Window")
+                    Spacer()
+                    Toggle(isOn: self.$isFloating) { EmptyView() }
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 5)
+                
+                HStack {
+                    Text("Show Dock Icon")
+                    Spacer()
+                    Toggle(isOn: self.$showDockIcon) {
+                        EmptyView()
+                    }
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 5)
+            }
+            .tabItem {
+                Label("General", systemImage: "gear")
+            }
+            
+            SettingsForm {
+                HStack {
+                    Text("Api Key")
+                    Spacer()
+                    TextField("", text: self.$apiKey, prompt: Text("YOUR API KEY"))
+                        .labelsHidden()
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .frame(width: 300)
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 5)
+                
+                Section(header: Text("Default Conversation Settings")) {
+                    HStack {
+                        Text("GPT Model")
+                        Spacer()
+                        AIModelPicker(model: self.$model)
+                    }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 5)
+                    
+                    HStack {
+                        Text("Creativity")
+                        Spacer()
+                        AITemperaturePicker(temperature: self.$temperature)
+                    }
+                    .padding(.vertical, 5)
+                    .padding(.horizontal, 5)
+                }
+                
+            }
+            .tabItem {
+                Label("AI", systemImage: "sparkle")
+            }
         }
-        .navigationSplitViewStyle(.prominentDetail)
-        .toolbar {}
     }
 }
 
@@ -102,3 +162,46 @@ extension KeyboardShortcuts.Name {
 }
 
 
+#Preview {
+    SettingsView(chatStore: .init())
+}
+
+struct Row<Label: View, Control: View>: View {
+    private let label: Label
+    private let control: Control
+    
+    init(label: Label, @ViewBuilder control: () -> Control) {
+        self.control = control()
+        self.label = label
+    }
+    
+    init(@ViewBuilder control: () -> Control) where Label == EmptyView {
+        self.init(label: EmptyView(), control: control)
+    }
+    
+    var body: some View {
+        HStack {
+            label.alignmentGuide(.centreLine) {
+                $0[.leading]
+            }
+            
+            Spacer()
+            
+            control.alignmentGuide(.centreLine) {
+                $0[.trailing]
+            }
+        }
+    }
+}
+
+
+
+extension HorizontalAlignment {
+    private struct CentreLine: AlignmentID {
+        static func defaultValue(in context: ViewDimensions) -> CGFloat {
+            context[HorizontalAlignment.center]
+        }
+    }
+    
+    static let centreLine = Self(CentreLine.self)
+}

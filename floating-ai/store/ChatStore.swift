@@ -41,19 +41,22 @@ struct FunctionDeclaration {
     }
 }
 
-@MainActor
 public final class ChatStore: ObservableObject {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var storedConversations: [Conversation]
+    @Preference(\.apiKey)
+    var apiKey
     
-    private var openAI: OpenAIProtocol = OpenAI(apiToken: "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")
+    private var openAI: OpenAIProtocol {
+        return OpenAI(apiToken: apiKey)
+    }
     
     @Published
     private var currentMessage: [Conversation.ID: Message] = [:]
     
     @ObservedObject var notificationsPublisher = NotificationPublisher()
     
-    @Published var model: Model = .gpt3_5Turbo_16k
+    @Preference(\.model)
+    var model
+    
     @Published var conversations: [Conversation] = []
     
     @Published var conversationErrors: [Conversation.ID: Error] = [:]
@@ -91,14 +94,25 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
         return loadingMap[id] ?? false
     }
     
-    static let availableModels: [Model] = [
-        .gpt3_5Turbo_16k,
-        .gpt4_32k
+    public static let availableModels: [Model] = [
+        .gpt3_5Turbo_1106,
+        .gpt4_1106_preview
     ]
+    
+    var selectedConversationError: Error? {
+        guard let id = self.selectedConversationID else { return nil }
+        return self.conversationErrors[id]
+    }
     
     var selectedConversation: Conversation? {
         selectedConversationID.flatMap { id in
             conversations.first { $0.id == id }
+        }
+    }
+    
+    var selectedConversationIndex: Array<Conversation>.Index? {
+        selectedConversationID.flatMap { id in
+            conversations.firstIndex { $0.id == id }
         }
     }
     
@@ -109,11 +123,15 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
         .eraseToAnyPublisher()
     }
     
+    var hasError: Bool {
+        return selectedConversationError != nil
+    }
+    
     // MARK: - INIT
     init() {
         self.$currentMessage
             .receive(on: RunLoop.main)
-            .throttle(for: .milliseconds(200), scheduler: DispatchQueue.main, latest: true)
+            .throttle(for: .milliseconds(150), scheduler: DispatchQueue.main, latest: true)
             .sink { value in
                 for item in value {
                     let message = item.value;
@@ -135,8 +153,10 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
     
     
     // MARK: - Events
+    @discardableResult
     func createConversation() -> Conversation.ID {
-        let conversation = Conversation(id: .init(), [])
+        let conversation = Conversation(model: self.model)
+        print(conversation)
         conversations.append(conversation)
         return conversation.id
     }
@@ -161,7 +181,14 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
             
             while index < name.count {
                 try await Task.sleep(for: .seconds(0.075))
-                self.conversations[idx].name += String(name[name.index(name.startIndex, offsetBy: index)])
+                
+                let partialName = String(name[name.index(name.startIndex, offsetBy: index)])
+                
+                if self.conversations[idx].name == nil {
+                    self.conversations[idx].name = partialName
+                } else {
+                    self.conversations[idx].name! += String(name[name.index(name.startIndex, offsetBy: index)])
+                }
                 index += 1
             }
         } else {
@@ -175,6 +202,7 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
         conversations.removeAll(where: { $0.id == conversationId })
     }
     
+    @MainActor
     func sendMessage(
         _ message: Message
     ) {
@@ -186,6 +214,7 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
         _completeChat_combined(conversationId: message.chat_id)
     }
     
+    @MainActor
     func askToExecuteFunction(_ instructions: String, conversationId: Conversation.ID) async throws {
         guard let conversationIndex = conversations.firstIndex(where: { $0.id == conversationId }) else { return }
         let conversation = conversations[conversationIndex]
@@ -255,8 +284,10 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
             $0.role != .function && $0.role != .system
         } + messagesToAppend
         
+        print("Using model: \(conversation.model ?? self.model)")
+        
         let query = ChatQuery(
-            model: self.model,
+            model: conversation.model ?? self.model,
             messages: messages
         )
         
@@ -269,10 +300,10 @@ Current date (ISO8601): \(Date.now.ISO8601Format())
                 case .finished:
                     self.loadingMap[conversationId] = false
                     if let conversation = self.conversations.first(where: { $0.id == conversationId }) {
-                        if conversation.messages.count == 2 {
+                        if conversation.messages.count == 2 && conversation.canAIRename {
                             Task {
                                 try await self.askToExecuteFunction(
-                                    "rename current conversation with a coincise contextual name",
+                                    "rename current conversation with a coincise contextual name reflecting the argument discussed",
                                     conversationId: conversationId
                                 )
                             }

@@ -16,30 +16,26 @@ struct SettingsForm<Content: View>: View {
         }
         .formStyle(.grouped)
         .coordinateSpace(name: "scroll")
-//        .safeAreaInset(edge: .top, spacing: -50) {
-//            EffectView(.menu)
-//                .transaction { transaction in
-//                    transaction.animation = nil
-//                }
-//                .overlay(alignment: .bottom) {
-//                    LinearGradient(
-//                        gradient: Gradient(colors: []),
-//                        startPoint: .top,
-//                        endPoint: .bottom
-//                    )
-//                    .frame(height: 1)
-//                    .padding(.bottom, -1)
-//                    .opacity(1)
-//                    .transition(.opacity)
-//                }
-//                .ignoresSafeArea()
-//                .frame(height: 0)
-//        }
     }
 }
 
 #Preview {
     SettingsForm {
-        EmptyView()
+            HStack {
+                Text("HELLO")
+                Spacer()
+                TextField("", text: .constant(""))
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+            .padding(.vertical, 5)
+        HStack {
+            Text("HELLO")
+            Spacer()
+            TextField("", text: .constant(""))
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+        }
+        .padding(.vertical, 5)
     }
+    .padding()
+    .frame(width: 600, height: 300)
 }

@@ -29,17 +29,19 @@ struct ChatBubble: View {
             switch message.role {
             case .assistant:
                 Markdown(message.content)
+                    .textSelection(.enabled)
                     .markdownCodeSyntaxHighlighter(.splash(theme:.sundellsColors(withFont: .init(size: 14.0))))
                     .markdownBlockStyle(\.codeBlock, body: { configuration in
                         configuration
                             .padding()
                             .cornerRadius(8)
+                            .textSelection(.enabled)
                             .markdownMargin(top: 5, bottom: 5)
-                            .overlay {
+                            .background(
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color.secondary.opacity(0.1))
                                     .stroke(.secondary.opacity(0.1), lineWidth: 1)
-                            }
+                            )
                     })
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
@@ -49,6 +51,7 @@ struct ChatBubble: View {
                 Text(message.content)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 8)
+                    .textSelection(.enabled)
             case .function:
                 Spacer()
                 Text(message.content)

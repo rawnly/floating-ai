@@ -25,12 +25,65 @@ final class NotificationPublisher: ObservableObject {
     }
 }
 
+struct ErrorMessage: View {
+    let text: String
+    
+    var body: some View {
+        HStack(alignment: .center) {
+            Spacer()
+            Text(self.text)
+                .foregroundStyle(.red)
+                .font(.system(size: 12).monospaced())
+                .padding()
+                .textSelection(.enabled)
+                .background(.red.opacity(0.1))
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+            Spacer()
+        }
+    }
+}
+
 struct ChatsList: View {
     @ObservedObject var chatStore: ChatStore
+    @State var isShowingInfo: Bool = false
     @State var text: String = ""
     @State var columnVisibility: NavigationSplitViewVisibility = .detailOnly
     
     @State var notificationContent: String?
+    
+    @State var showClearConversationAlert: Bool = false
+    @State var showDeleteConversationAlert: Bool = false
+    @State var renamingChatId: Conversation.ID? = nil
+    @State var renamingText: String = ""
+    @FocusState var renamingFieldFocus
+    
+    @Preference(\.apiKey)
+    var apiKey
+    
+    var inputPlaceholder: String {
+        if apiKey.isEmpty {
+            return "Please provide a valid api key"
+        }
+        
+        return "Ask AI anything..."
+    }
+    
+    private func deleteConversation(conversationId: Conversation.ID?) {
+        let isCurrent = self.chatStore.selectedConversationID == conversationId
+        
+        if isCurrent {
+            guard let index = self.chatStore.selectedConversationIndex else { return }
+            if index > 0 {
+                let previous = self.chatStore.conversations[index - 1]
+                self.chatStore.selectConversation(previous.id)
+            } else if self.chatStore.conversations.count > index + 1 {
+                let next = self.chatStore.conversations[index + 1]
+                self.chatStore.selectConversation(next.id)
+            }
+        }
+        
+        self.chatStore.deleteConversation(conversationId)
+    }
     
     var body: some View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
@@ -44,7 +97,40 @@ struct ChatsList: View {
             )) {
                 ForEach($chatStore.conversations, id: \.id) { $conversation in
                     ZStack(alignment: .leading) {
-                        Text(conversation.name)
+                        if self.renamingChatId == conversation.id {
+                            TextField(conversation.displayName, text: self.$renamingText)
+                                .focused(self.$renamingFieldFocus)
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .lineLimit(1)
+                                .onChange(of: self.renamingFieldFocus, { _, isFocused in
+                                    if isFocused { return }
+                                    
+                                    if self.renamingText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        self.renamingChatId = nil
+                                        return
+                                    }
+                                    
+                                    Task {
+                                        print("Renaming to \(self.renamingText)")
+                                        try await self.chatStore.updateConversationName(conversation.id, name: self.renamingText)
+                                        self.renamingChatId = nil
+                                    }
+                                })
+                                .onSubmit {
+                                    if self.renamingText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                        self.renamingChatId = nil
+                                        return
+                                    }
+                                    
+                                    Task {
+                                        print("Renaming to \(self.renamingText)")
+                                        try await self.chatStore.updateConversationName(conversation.id, name: self.renamingText)
+                                        self.renamingChatId = nil
+                                    }
+                                }
+                        } else {
+                            Text(conversation.displayName)
+                        }
                         
                         if chatStore.loadingMap[conversation.id] == true {
                             ProgressView()
@@ -53,7 +139,35 @@ struct ChatsList: View {
                                 .transition(.opacity)
                                 .padding(.leading, 5)
                         }
+                    }
+                    .onTapGesture(count: 2) {
+                        if self.renamingChatId != nil { return }
                         
+                        self.renamingText = ""
+                        self.renamingChatId = conversation.id
+                        self.renamingFieldFocus = true
+                    }
+                    .contextMenu {
+                        Button("Delete") {
+                            self.showDeleteConversationAlert = true
+                        }
+                        .confirmationDialog("Confirm?", isPresented: self.$showDeleteConversationAlert) {
+                            Button {
+                                self.deleteConversation(conversationId: conversation.id)
+                            } label: {
+                                Text("Delete")
+                            }
+                        }
+                        
+                        Button("Clear") {
+                            self.chatStore.clearActiveConversation(conversation.id)
+                        }
+                        
+                        Button("Rename") {
+                            self.renamingText = ""
+                            self.renamingChatId = conversation.id
+                            self.renamingFieldFocus = true
+                        }
                     }
                 }
             }
@@ -92,21 +206,26 @@ struct ChatsList: View {
                                 VStack {
                                     ForEach(conversation.visibleMessages) { message in
                                         ChatBubble(message: message)
+                                            .transition(.opacity.combined(with: .move(edge: message.role == .assistant ? .leading : .trailing)))
+                                    }
+                                
+                                    if let error = self.chatStore.selectedConversationError, self.chatStore.hasError {
+                                        ErrorMessage(text: error.localizedDescription)
+                                            .textSelection(.enabled)
+                                            .transition(.opacity.combined(with: .move(edge: .top)))
+                                    }
+                                    
+                                    if apiKey.isEmpty {
+                                        SettingsLink {
+                                            ErrorMessage(text: "No api key configured. Please double check preferences.")
+                                        }
+                                        .buttonStyle(.plain)
+                                        .transition(.opacity.combined(with: .move(edge: .top)))
                                     }
                                 }
                                 .padding(.top, 20)
                                 .padding(.horizontal, 20)
                                 .padding(.bottom, 80)
-                                
-                                if let error = chatStore.conversationErrors[conversation.id] {
-                                    HStack(alignment: .center) {
-                                        Spacer()
-                                        Text(error.localizedDescription)
-                                            .foregroundStyle(.red)
-                                            .font(.system(size: 14).monospaced())
-                                        Spacer()
-                                    }
-                                }
                             }
                             .id(UUID())
                             .background(.clear)
@@ -118,59 +237,71 @@ struct ChatsList: View {
                             if conversation.messages.isEmpty {
                                 Spacer()
                                 EmptyPlaceholder()
+                                    .transition(.opacity)
                                 Spacer()
                             }
                             
                             ChatTextField(
-                                isLoading ? "Please wait..." : "Ask AI anything..",
+                                isLoading ? "Please wait..." : self.inputPlaceholder,
                                 text: $text,
                                 isLoading: isLoading,
-                                isEmpty: conversation.messages.isEmpty
+                                isEmpty: conversation.messages.isEmpty,
+                                disabled: apiKey.isEmpty || isLoading
                             ) {
                                 let content = self.text;
                                 self.text = ""
                                 self.chatStore.sendMessage(.user(conversation.id, content))
-                                
-//                                Task {
-//                                    await chatStore.sendMessage(
-//                                        .user(conversation.id, content)
-//                                    )
-//                                }
                             }
+                            .disabled(apiKey.isEmpty)
                         }
                         .padding(.horizontal, 20)
                         .padding(.bottom, 20)
                     }
                 }
-                .navigationTitle(conversation.name)
+                .navigationTitle(conversation.displayName)
             } else {
-                VStack(alignment: .trailing) {
-                    Spacer()
-                    EmptyPlaceholder()
-                    Spacer()
-                    
-                    ChatTextField(
-                        chatStore.isLoading ? "Please wait..." : "Ask AI anything..",
-                        text: $text,
-                        isLoading: false,
-                        isEmpty: true
-                    ) {
-                        let conversationId = chatStore.createConversation()
-                        
-                        let content = self.text
-                        self.text = ""
-                        chatStore.selectConversation(conversationId)
-                        
-                        self.chatStore.sendMessage(.user(conversationId, content))
+                ZStack(alignment: .top) {
+                    if apiKey.isEmpty {
+                        SettingsLink {
+                            ErrorMessage(text: "No api key configured. Click to configure")
+                        }
+                        .transition(.opacity.combined(with: .move(edge: .top)))
+                        .buttonStyle(.plain)
+                        .padding(.top, 20)
+                        .padding(.horizontal, 20)
                     }
+                    
+                    VStack(alignment: .trailing) {
+                        Spacer()
+                        EmptyPlaceholder()
+                        Spacer()
+                        
+                        ChatTextField(
+                            chatStore.isLoading ? "Please wait..." : self.inputPlaceholder,
+                            text: $text
+                        ) {
+                            let conversationId = chatStore.createConversation()
+                            
+                            let content = self.text
+                            self.text = ""
+                            chatStore.selectConversation(conversationId)
+                            
+                            self.chatStore.sendMessage(.user(conversationId, content))
+                        }
+                        .disabled(apiKey.isEmpty)
+                    }
+                    .padding(20)
                 }
-                .padding(20)
             }
         }
+        ._visualEffect(material: .sidebar)
+        .animation(.bouncy, value: apiKey.isEmpty)
+        .animation(.bouncy, value: self.chatStore.hasError)
         .toolbar {
             ToolbarItem(placement: .status) {
-                Text(chatStore.selectedConversation?.name ?? "Floating AI")
-                    .font(.title3)
+                Text(chatStore.selectedConversation?.displayName ?? "Floating AI")
+                    .font(.title2)
+                    .padding(.vertical ,15)
                     .bold()
             }
             
@@ -185,17 +316,21 @@ struct ChatsList: View {
                 .disabled(chatStore.selectedConversationID == nil)
                 
                 Button(action: {
-                    let selectedId = chatStore.selectedConversationID;
-                    chatStore.deleteConversation(selectedId)
-                    
-                    if let lastConversation = chatStore.conversations.last(where: {
-                        $0.id != selectedId
-                    }) {
-                        chatStore.selectConversation(lastConversation.id)
-                    }
+                    self.isShowingInfo.toggle()
+                }) {
+                    Label("Show Conversation Info", systemImage: "info.circle")
+                }
+                .keyboardShortcut("i")
+                .popover(isPresented: self.$isShowingInfo, arrowEdge: .bottom) {
+                    ConversationPopover(chatStore: self.chatStore)
+                }
+                
+                Button(action: {
+                    self.deleteConversation(conversationId:self.chatStore.selectedConversationID)
                 }) {
                     Label("Delete Conversation", systemImage: "trash")
                 }
+                .keyboardShortcut(.delete)
                 .disabled(chatStore.selectedConversationID == nil)
             }
             
@@ -210,6 +345,7 @@ struct ChatsList: View {
                 }) {
                     Label("Add Conversation", systemImage: "plus")
                 }
+                .keyboardShortcut("n")
             }
         }
         .onAppear {
@@ -265,4 +401,109 @@ struct EmptyPlaceholder: View {
 
 #Preview {
     ChatsList(chatStore: .init())
+}
+
+
+import OpenAI
+
+struct ConversationPopover: View {
+    @Preference(\.model)
+    var model
+    
+    @Preference(\.temperature)
+    var temperature
+    
+    private(set) var chatStore: ChatStore
+    
+    func updateCurrentTemperature(_ temperature: Temperature) {
+        guard let index = self.chatStore.selectedConversationIndex else { return }
+        self.chatStore.conversations[index].temperature = temperature
+    }
+    
+    func updateCurrentModel(_ model: Model) {
+        guard let index = self.chatStore.selectedConversationIndex else { return }
+        self.chatStore.conversations[index].model = model
+    }
+    
+    var body: some View {
+        VStack {
+            if let conversation = chatStore.selectedConversation {
+                #if DEBUG
+                Form {
+                    
+                    HStack {
+                        Text("ID:")
+                        Spacer()
+                        Text(conversation.id.uuidString)
+                    }
+                    
+                    HStack {
+                        Text("Name:")
+                        Spacer()
+                        Text(conversation.displayName)
+                    }
+                    
+                    
+                    HStack {
+                        Text("Messages Count:")
+                        Spacer()
+                        Text(conversation.messages.count.formatted())
+                    }
+                    
+                    HStack {
+                        Text("Created At:")
+                        Spacer()
+                        Text(conversation.timestamp.ISO8601Format())
+                    }
+                }
+                
+                Divider()
+                    .padding(.vertical, 5)
+                #endif
+                
+                Form {
+                    HStack {
+                        Text("Model:")
+                        Spacer()
+                        AIModelPicker(model: Binding<Model>(
+                            get: {
+                                conversation.model ?? self.model
+                            },
+                            set: { model in
+                                self.updateCurrentModel(model)
+                            }
+                        ))
+                    }
+                    
+                    HStack {
+                        Text("Creativity:")
+                        Spacer()
+                        AITemperaturePicker(temperature: Binding<Temperature>(
+                            get: {
+                                conversation.temperature ?? self.temperature
+                            },
+                            set: { temp in
+                                self.updateCurrentTemperature(temp)
+                            }
+                        ))
+                    }
+                }
+            } else {
+                Form {
+                    HStack {
+                        Text("Model:")
+                        Spacer()
+                        AIModelPicker(model: self.$model)
+                    }
+                    
+                    HStack {
+                        Text("Creativity:")
+                        Spacer()
+                        AITemperaturePicker(temperature: self.$temperature)
+                    }
+                }
+            }
+        }
+        .padding()
+    }
 }
