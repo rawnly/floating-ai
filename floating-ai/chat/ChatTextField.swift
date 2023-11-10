@@ -7,9 +7,13 @@
 
 import Foundation
 import SwiftUI
+import UniformTypeIdentifiers
+
 
 struct ChatTextField: View {
     @FocusState var isFocused: Bool
+    
+    var isDroppingFile: Bool = false
     
     var text: Binding<String>
     var isLoading: Bool = false
@@ -17,6 +21,7 @@ struct ChatTextField: View {
     var placeholder: String
     var isEmpty: Bool = false
     var disabled: Bool = false
+    var hasFiles: Bool = false
     
     init(
         _ placeholder: String,
@@ -24,6 +29,8 @@ struct ChatTextField: View {
         isLoading: Bool=false,
         isEmpty: Bool=true,
         disabled: Bool=false,
+        isDroppingFile: Bool=false,
+        hasFiles: Bool = false,
         onSubmit: @escaping () -> Void
     ) {
         self.placeholder = placeholder
@@ -32,10 +39,16 @@ struct ChatTextField: View {
         self.isEmpty = isEmpty
         self.onSubmit = onSubmit
         self.disabled = disabled
+        self.isDroppingFile = isDroppingFile
+        self.hasFiles = hasFiles;
     }
     
     @State
     var gradientDirection: [UnitPoint] = [.top, .bottom]
+    
+    var shouldShowHelper: Bool {
+        return self.isEmpty
+    }
     
     
     var body: some View {
@@ -50,7 +63,7 @@ struct ChatTextField: View {
             
             VStack {
                 HStack {
-                    if self.isEmpty {
+                    if self.shouldShowHelper && !self.hasFiles {
                         Text("Press Enter to submit")
                             .font(.system(size: 12))
                             .foregroundStyle(.secondary.opacity(0.5))
@@ -83,7 +96,13 @@ struct ChatTextField: View {
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(
                                     LinearGradient(
-                                        colors: [Color.accentColor.opacity(self.isFocused ? 0.3 : 0.2), Color.secondary.opacity(1)],
+                                        colors: self.isDroppingFile ? [
+                                            Color.accentColor,
+                                            Color.accentColor
+                                        ] : [
+                                            Color.accentColor.opacity(self.isFocused ? 0.3 : 0.2),
+                                            Color.secondary.opacity(1)
+                                        ],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     ),
@@ -110,5 +129,69 @@ struct ChatTextField: View {
             }
             .zIndex(1)
         }
+    }
+}
+
+struct Thumbnail: View {
+    @State
+    private var isHover: Bool = false
+    
+    @State
+    private var isSelected: Bool = false
+    
+    @State
+    private var isFocused: Bool = false
+    
+    let thumbnail: ThumbnailImage
+    let onRemove: (_ image: ThumbnailImage) -> Void
+    
+    init(_ thumbnail: ThumbnailImage, onRemove: @escaping (_ image: ThumbnailImage) -> Void) {
+        self.thumbnail = thumbnail
+        self.onRemove = onRemove
+    }
+    
+    var body: some View {
+        ZStack(alignment: .center) {
+            Image(nsImage: self.thumbnail.image)
+                .resizable()
+                .scaledToFill()
+                .cornerRadius(8)
+            
+            if self.isHover {
+                Rectangle()
+                    .foregroundStyle(Color.black.opacity(0.5))
+                    .scaledToFill()
+                    .overlay {
+                        Button(role: .destructive) {
+                            self.onRemove(self.thumbnail)
+                        } label: {
+                            Image(systemName: "trash.fill")
+                        }
+                        .buttonStyle(.plain)
+                    }
+                .transition(.opacity)
+            }
+        }
+        .animation(.easeInOut(duration: 0.15), value: self.isHover)
+        .onHover(perform: { hovering in
+            self.isHover = hovering
+        })
+        .clipShape(
+            RoundedRectangle(cornerRadius: 8)
+        )
+    }
+}
+
+struct ThumbnailImage: Identifiable {
+    var id: String = UUID().uuidString
+    let image: NSImage
+    
+    init(_ image: NSImage) {
+        self.image = image
+    }
+    
+    init(_ image: NSImage, id: String) {
+        self.image = image
+        self.id = id
     }
 }

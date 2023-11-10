@@ -13,10 +13,6 @@ extension NSToolbarItem.Identifier {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    @ObservedObject
-    public var chatStore: ChatStore = ChatStore()
-    
-    
     private var toolbar: NSToolbar!
     private var toolbarItems: [[String:String]] = [
         ["title": "Share", "icon": "gear", "identifier": NSToolbarItem.Identifier.toggleSidebarVisibility]

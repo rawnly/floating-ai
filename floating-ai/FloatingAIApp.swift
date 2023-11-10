@@ -14,8 +14,11 @@ import OpenAI
 
 @main
 struct FloatingAIApp: App {
+    @ObservedObject
+    public var chatStore: ChatStore = ChatStore()
+
     @StateObject private var appState = AppState()
-    @StateObject private var permissionService  = PermissionsService()
+    @StateObject private var permissionService = PermissionsService()
     
     @State var hostingWindow: NSWindow?
     @State private var isAlertOpen: Bool = false;
@@ -39,17 +42,18 @@ struct FloatingAIApp: App {
     
     init() {
         // TODO: Init Sentry here
+        self.chatStore.load()
     }
-
 
     var body: some Scene {
         Window("Floating AI", id: "chat") {
-            ChatsList(chatStore: self.appDelegate.chatStore)
+            ChatsList()
                 .onAppear {
                     self.permissionService.pollAccessibilityPrivileges(shouldPrompt: true)
                 }
                 .frame(minWidth: 400, minHeight: 500)
                 .environmentObject(appState)
+                .environmentObject(chatStore)
                 .environmentObject(permissionService)
                 .bindHostingWindow(self.$hostingWindow)
         }
@@ -60,8 +64,8 @@ struct FloatingAIApp: App {
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("New Conversation") {
-                    let id = self.appDelegate.chatStore.createConversation()
-                    self.appDelegate.chatStore.selectConversation(id)
+                    let id = self.chatStore.createConversation()
+                    self.chatStore.selectConversation(id)
                 }
             }
             
@@ -77,7 +81,7 @@ struct FloatingAIApp: App {
         
         
         Settings {
-            SettingsView(chatStore: self.appDelegate.chatStore)
+            SettingsView(chatStore: self.chatStore)
                 .navigationTitle("Preferences")
                 .frame(width: 600, height: 400)
                 .environmentObject(appState)

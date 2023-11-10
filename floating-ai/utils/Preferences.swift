@@ -66,10 +66,13 @@ final class Preferences {
     var apiKey: String = ""
     
     @UserDefault("gpt_model")
-    var model: Model = .gpt3_5Turbo_16k
+    var model: Model = .gpt3_5Turbo_1106
     
     @UserDefault("temperature")
     var temperature: Temperature = .medium
+    
+    @UserDefault("autoRenameChat")
+    var autoRenameChat: Bool = true
 }
 
 @propertyWrapper

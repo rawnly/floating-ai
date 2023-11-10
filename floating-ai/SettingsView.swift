@@ -54,6 +54,9 @@ struct SettingsView: View {
     @Preference(\.temperature)
     var temperature
     
+    @Preference(\.autoRenameChat)
+    var autoRenameChat
+    
     init(chatStore: ChatStore) {
         self.chatStore = chatStore
         
@@ -127,6 +130,21 @@ struct SettingsView: View {
                         .frame(width: 300)
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
+                }
+                .padding(.vertical, 5)
+                .padding(.horizontal, 5)
+                
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text("Auto rename conversation")
+                        Text("Automagically renames conversation after the first AI response")
+                            .font(.caption)
+                            .foregroundStyle(Color(nsColor: .textColor).opacity(0.5))
+                    }
+                    Spacer()
+                    Toggle(isOn: self.$autoRenameChat) {
+                        EmptyView()
+                    }
                 }
                 .padding(.vertical, 5)
                 .padding(.horizontal, 5)

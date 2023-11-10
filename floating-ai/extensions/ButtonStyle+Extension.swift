@@ -14,7 +14,7 @@ struct BasicButtonStyle: ButtonStyle {
     
     enum Role {
         case danger
-        case cancel
+        case standard
     }
     
     var background: some ShapeStyle {

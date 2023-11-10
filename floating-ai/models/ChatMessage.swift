@@ -8,74 +8,151 @@
 import SwiftData
 import Foundation
 import OpenAI
+import Cocoa
+import Alamofire
 
-struct Message: Identifiable, Equatable {
+
+enum MessageAttachment: Equatable {
+   case image(NSImage)
+}
+
+final class Message: Identifiable, Equatable {
+    private let cloudinaryApi = CloudinaryAPI(cloud_id: "dpcawz5hj", apiKey: "494171277924628", apiSecret: nil)
+    
     var id: String
-    var chat_id: UUID
+    var conversationId: UUID
     var timestamp: Date
     var content: String
+    var attachments: [MessageAttachment]
     var role: Chat.Role
     
     init(id: String, kind: Chat.Role, chat_id: UUID, _ content: String) {
         self.id = id;
         self.timestamp = Date.now
         self.content = content
-        self.chat_id = chat_id
+        self.conversationId = chat_id
         self.role = kind
+        self.attachments = []
+    }
+    
+    init(id: String, role: Chat.Role, conversationId: UUID, attachments: [MessageAttachment], _ content: String) {
+        self.id = id;
+        self.timestamp = Date.now
+        self.content = content
+        self.conversationId = conversationId
+        self.role = role
+        self.attachments = attachments
     }
 }
 
 extension Message {
+    static func == (lhs: Message, rhs: Message) -> Bool {
+        lhs.id == rhs.id && rhs.role == lhs.role && rhs.content == lhs.content && rhs.attachments == lhs.attachments
+    }
+    
     static func +(lhs: Message, rhs: Message) -> Message {
         return Message(
             id: rhs.id,
-            kind: rhs.role,
-            chat_id: rhs.chat_id,
+            role: rhs.role,
+            conversationId: rhs.conversationId,
+            attachments: lhs.attachments + rhs.attachments,
             lhs.content + rhs.content
         )
     }
 }
 
 extension Message {
-    func toChat() -> Chat {
-        Chat(role: self.role, content: self.content)
+    func toChat(skipAttachments: Bool = false) -> Chat {
+        // NOTE: we skip upload now
+        // let's try via base64 encoded images
+        // @see https://platform.openai.com/docs/api-reference/chat/create#:~:text=Either%20a%20URL%20of%20the%20image%20or%20the%20base64%20encoded%20image%20data.
+        let images = self.attachments.compactMap {
+            switch $0 {
+            case .image(let nsimage):
+                return nsimage.base64
+            }
+        }
+        .map { ChatContent.imageUrl($0) }
+        
+        var contents: [ChatContent] = [
+            .text(self.content)
+        ]
+        
+        if !skipAttachments {
+            contents.append(contentsOf: images)
+        }
+        
+        return Chat(role: self.role, contents: .object(contents))
     }
     
-    static func system(_ conversationId: Conversation.ID, _ content: String) -> Self {
+    func toChatAsync() async throws -> Chat {
+        var attachments: [ChatContent] = []
+        let images = self.attachments.compactMap {
+            switch $0 {
+            case .image(let nsimage):
+                return nsimage
+            }
+        }
+        
+        for image in images {
+            guard let data = image.tiffRepresentation else {
+                continue
+            }
+            
+            let cloudinaryItem = try await self.cloudinaryApi.upload(data: data)
+            attachments.append(.imageUrl(cloudinaryItem.url))
+        }
+        
+        return Chat(role: self.role, contents: .object([
+            .text(self.content),
+        ] + attachments))
+    }
+    
+    static func system(_ conversationId: Conversation.ID, _ content: String) -> Message {
         return Message(
             id: UUID().uuidString,
-            kind: .system,
-            chat_id: conversationId,
+            role: .system,
+            conversationId: conversationId,
+            attachments: [],
             content
         )
     }
     
-    static func user(_ conversationId: Conversation.ID, _ content: String) -> Self {
+    static func user(_ conversationId: Conversation.ID, _ content: String, attachments: [MessageAttachment] = []) -> Message {
         return Message(
             id: UUID().uuidString,
-            kind: .user,
-            chat_id: conversationId,
+            role: .user,
+            conversationId: conversationId,
+            attachments: attachments,
             content
         )
     }
     
-    static func function(_ conversationId: Conversation.ID, _ content: String) -> Self {
+    static func function(_ conversationId: Conversation.ID, _ content: String) -> Message {
         return Message(
             id: UUID().uuidString,
-            kind: .function,
-            chat_id: conversationId,
+            role: .function,
+            conversationId: conversationId,
+            attachments: [],
             content
         )
     }
 }
 
-extension Message: Codable {
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case chat_id = "chat_id"
-        case timestamp = "timestamp"
-        case content = "content"
-        case role = "kind"
+extension NSImage {
+    var base64: String? {
+        guard let imageData = self.tiffRepresentation else {
+            return nil
+        }
+        
+        let bitmapRep = NSBitmapImageRep(data: imageData)
+        
+        guard let pngData = bitmapRep?.representation(using: .png, properties: [:]) else {
+            return nil
+        }
+        
+        let uri = pngData.base64EncodedString(options: [])
+        
+        return "data:image/png;base64,\(uri)"
     }
 }
-    

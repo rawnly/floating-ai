@@ -1,12 +1,30 @@
 {
   "pins" : [
     {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire",
+      "state" : {
+        "revision" : "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
+        "version" : "5.8.1"
+      }
+    },
+    {
       "identity" : "hotkey",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/soffes/HotKey",
       "state" : {
         "branch" : "main",
         "revision" : "4d02d80de143d69b7eeb5962729591a157a57ede"
+      }
+    },
+    {
+      "identity" : "imagekit-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rawnly/imagekit-swift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "b4292c2a5845fb214b86969aa8c2493362d8fbd5"
       }
     },
     {
@@ -25,15 +43,6 @@
       "state" : {
         "revision" : "7aff8d1b31148d32c5933d75557d42f6323ee3d1",
         "version" : "6.0.0"
-      }
-    },
-    {
-      "identity" : "openai?tab=readme-ov-file#",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/MacPaw/OpenAI?tab=readme-ov-file#",
-      "state" : {
-        "revision" : "c45f3320ffa760f043c0239f724850c0e4f8bde5",
-        "version" : "0.2.4"
       }
     },
     {
@@ -64,12 +73,12 @@
       }
     },
     {
-      "identity" : "swiftui-introspect",
+      "identity" : "swiftopenai",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/siteline/SwiftUI-Introspect",
+      "location" : "https://github.com/rawnly/swiftopenai",
       "state" : {
-        "revision" : "9e1cc02a65b22e09a8251261cccbccce02731fc5",
-        "version" : "1.1.1"
+        "branch" : "new-content-format",
+        "revision" : "06784caf3d4b91c913e422f7bb45b6427b2f3c3c"
       }
     }
   ],

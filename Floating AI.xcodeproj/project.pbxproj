@@ -10,8 +10,14 @@
 		9A0EB6A82AFB2AFA004536A9 /* WindowInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0EB6A72AFB2AFA004536A9 /* WindowInfo.swift */; };
 		9A0EB6AA2AFB2B1E004536A9 /* Model+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0EB6A92AFB2B1E004536A9 /* Model+Extension.swift */; };
 		9A0EB6AC2AFB2B2A004536A9 /* dialogs in Resources */ = {isa = PBXBuildFile; fileRef = 9A0EB6AB2AFB2B2A004536A9 /* dialogs */; };
-		9A0EB6AE2AFB2B35004536A9 /* styles in Resources */ = {isa = PBXBuildFile; fileRef = 9A0EB6AD2AFB2B35004536A9 /* styles */; };
 		9A0EB6B02AFB2B64004536A9 /* AIModelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A0EB6AF2AFB2B64004536A9 /* AIModelPicker.swift */; };
+		9A94ED6E2AFD1785002CCA6D /* ButtonStyle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A94ED6D2AFD1785002CCA6D /* ButtonStyle+Extension.swift */; };
+		9A94ED712AFD8503002CCA6D /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9A94ED702AFD8503002CCA6D /* OpenAI */; };
+		9A94ED732AFD96F1002CCA6D /* profile.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 9A94ED722AFD96F1002CCA6D /* profile.jpeg */; };
+		9A94ED762AFD994A002CCA6D /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 9A94ED752AFD994A002CCA6D /* Alamofire */; };
+		9A94ED782AFDA129002CCA6D /* CloudinaryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A94ED772AFDA129002CCA6D /* CloudinaryAPI.swift */; };
+		9A94ED802AFDB1F4002CCA6D /* Floating_AITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A94ED7F2AFDB1F4002CCA6D /* Floating_AITests.swift */; };
+		9A94ED882AFDBBC9002CCA6D /* ImageKitIO in Frameworks */ = {isa = PBXBuildFile; productRef = 9A94ED872AFDBBC9002CCA6D /* ImageKitIO */; };
 		9AAAC9C82AF80F1000E046D0 /* FocusWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */; };
 		9AAAC9CB2AF8112D00E046D0 /* PermissionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */; };
 		9AAAC9CD2AF85CF500E046D0 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */; };
@@ -19,6 +25,8 @@
 		9AC633FD2AF7BAC900AAACC2 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC633FC2AF7BAC900AAACC2 /* Preferences.swift */; };
 		9AC633FF2AF7CAA400AAACC2 /* DockIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC633FE2AF7CAA400AAACC2 /* DockIcon.swift */; };
 		9AC634032AF7DF4500AAACC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */; };
+		9ACFCB372AFBC2B2009F1BF6 /* ConversationsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACFCB362AFBC2B2009F1BF6 /* ConversationsVM.swift */; };
+		9ACFCB392AFBC470009F1BF6 /* DemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ACFCB382AFBC470009F1BF6 /* DemoView.swift */; };
 		9AD4DBC02AF59DA2008F83DB /* FloatingAIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */; };
 		9AD4DBC42AF59DA2008F83DB /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC32AF59DA2008F83DB /* Conversation.swift */; };
 		9AD4DBC62AF59DA3008F83DB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9AD4DBC52AF59DA3008F83DB /* Assets.xcassets */; };
@@ -28,7 +36,6 @@
 		9AD4DBD72AF65725008F83DB /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBD62AF65725008F83DB /* SettingsView.swift */; };
 		9AD4DBDF2AF65E16008F83DB /* SettingsForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBDE2AF65E16008F83DB /* SettingsForm.swift */; };
 		9AD4DBE12AF65FC4008F83DB /* EffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBE02AF65FC4008F83DB /* EffectView.swift */; };
-		9AD4DBE42AF6771B008F83DB /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD4DBE32AF6771B008F83DB /* OpenAI */; };
 		9AD4DBE92AF69D3C008F83DB /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 9AD4DBE82AF69D3C008F83DB /* MarkdownUI */; };
 		9AD4DBF92AF69F21008F83DB /* SplashCodeSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBF82AF69F21008F83DB /* SplashCodeSyntaxHighlighter.swift */; };
 		9AD4DBFB2AF69F2B008F83DB /* TextOutputFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DBFA2AF69F2B008F83DB /* TextOutputFormat.swift */; };
@@ -36,17 +43,30 @@
 		9AD4DC102AF6AED1008F83DB /* VisualEffectBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC0F2AF6AED1008F83DB /* VisualEffectBackground.swift */; };
 		9AD4DC122AF6B694008F83DB /* ChatTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC112AF6B694008F83DB /* ChatTextField.swift */; };
 		9AD4DC152AF6B6CF008F83DB /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC142AF6B6CF008F83DB /* ChatMessage.swift */; };
-		9AD4DC172AF6B722008F83DB /* ChatMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC162AF6B722008F83DB /* ChatMessageView.swift */; };
 		9AD4DC1B2AF6DBA3008F83DB /* ChatStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC1A2AF6DBA3008F83DB /* ChatStore.swift */; };
 		9AD4DC1D2AF6E199008F83DB /* ChatsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9A94ED812AFDB1F4002CCA6D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9AD4DBB42AF59DA2008F83DB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9AD4DBBB2AF59DA2008F83DB;
+			remoteInfo = "Floating AI";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		9A0EB6A72AFB2AFA004536A9 /* WindowInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowInfo.swift; sourceTree = "<group>"; };
 		9A0EB6A92AFB2B1E004536A9 /* Model+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Model+Extension.swift"; sourceTree = "<group>"; };
 		9A0EB6AB2AFB2B2A004536A9 /* dialogs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dialogs; sourceTree = "<group>"; };
-		9A0EB6AD2AFB2B35004536A9 /* styles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = styles; sourceTree = "<group>"; };
 		9A0EB6AF2AFB2B64004536A9 /* AIModelPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AIModelPicker.swift; sourceTree = "<group>"; };
+		9A94ED6D2AFD1785002CCA6D /* ButtonStyle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ButtonStyle+Extension.swift"; sourceTree = "<group>"; };
+		9A94ED722AFD96F1002CCA6D /* profile.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = profile.jpeg; path = "../../../../../Pictures/Profile Pics/profile.jpeg"; sourceTree = "<group>"; };
+		9A94ED772AFDA129002CCA6D /* CloudinaryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudinaryAPI.swift; sourceTree = "<group>"; };
+		9A94ED7D2AFDB1F4002CCA6D /* Floating AITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Floating AITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9A94ED7F2AFDB1F4002CCA6D /* Floating_AITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Floating_AITests.swift; sourceTree = "<group>"; };
 		9AAAC9C72AF80F1000E046D0 /* FocusWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusWindow.swift; sourceTree = "<group>"; };
 		9AAAC9CA2AF8112D00E046D0 /* PermissionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionsView.swift; sourceTree = "<group>"; };
 		9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
@@ -55,6 +75,8 @@
 		9AC633FE2AF7CAA400AAACC2 /* DockIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockIcon.swift; sourceTree = "<group>"; };
 		9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9AC634042AF7E1F800AAACC2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9ACFCB362AFBC2B2009F1BF6 /* ConversationsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsVM.swift; sourceTree = "<group>"; };
+		9ACFCB382AFBC470009F1BF6 /* DemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoView.swift; sourceTree = "<group>"; };
 		9AD4DBBC2AF59DA2008F83DB /* Floating AI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Floating AI.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingAIApp.swift; sourceTree = "<group>"; };
 		9AD4DBC32AF59DA2008F83DB /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -69,27 +91,43 @@
 		9AD4DC0F2AF6AED1008F83DB /* VisualEffectBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectBackground.swift; sourceTree = "<group>"; };
 		9AD4DC112AF6B694008F83DB /* ChatTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextField.swift; sourceTree = "<group>"; };
 		9AD4DC142AF6B6CF008F83DB /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
-		9AD4DC162AF6B722008F83DB /* ChatMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageView.swift; sourceTree = "<group>"; };
 		9AD4DC1A2AF6DBA3008F83DB /* ChatStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStore.swift; sourceTree = "<group>"; };
 		9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9A94ED7A2AFDB1F4002CCA6D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AD4DBB92AF59DA2008F83DB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A94ED712AFD8503002CCA6D /* OpenAI in Frameworks */,
 				9AD4DBFE2AF6A1C8008F83DB /* Splash in Frameworks */,
 				9AD4DBD22AF65632008F83DB /* HotKey in Frameworks */,
-				9AD4DBE42AF6771B008F83DB /* OpenAI in Frameworks */,
+				9A94ED762AFD994A002CCA6D /* Alamofire in Frameworks */,
 				9AD4DBD52AF6570A008F83DB /* KeyboardShortcuts in Frameworks */,
 				9AD4DBE92AF69D3C008F83DB /* MarkdownUI in Frameworks */,
+				9A94ED882AFDBBC9002CCA6D /* ImageKitIO in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9A94ED7E2AFDB1F4002CCA6D /* Floating AITests */ = {
+			isa = PBXGroup;
+			children = (
+				9A94ED7F2AFDB1F4002CCA6D /* Floating_AITests.swift */,
+			);
+			path = "Floating AITests";
+			sourceTree = "<group>";
+		};
 		9AAAC9C92AF8112700E046D0 /* views */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				9AD4DC1A2AF6DBA3008F83DB /* ChatStore.swift */,
+				9ACFCB362AFBC2B2009F1BF6 /* ConversationsVM.swift */,
 			);
 			path = store;
 			sourceTree = "<group>";
@@ -113,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				9AC633FC2AF7BAC900AAACC2 /* Preferences.swift */,
+				9A94ED772AFDA129002CCA6D /* CloudinaryAPI.swift */,
 				9AD4DBE02AF65FC4008F83DB /* EffectView.swift */,
 				9A0EB6A72AFB2AFA004536A9 /* WindowInfo.swift */,
 				9AC633FE2AF7CAA400AAACC2 /* DockIcon.swift */,
@@ -125,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				9AD4DBBE2AF59DA2008F83DB /* floating-ai */,
+				9A94ED7E2AFDB1F4002CCA6D /* Floating AITests */,
 				9AD4DBBD2AF59DA2008F83DB /* Products */,
 				9AD4DBFC2AF6A1C8008F83DB /* Frameworks */,
 			);
@@ -134,6 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				9AD4DBBC2AF59DA2008F83DB /* Floating AI.app */,
+				9A94ED7D2AFDB1F4002CCA6D /* Floating AITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -150,10 +192,11 @@
 				9AD4DBF62AF69EFF008F83DB /* markdown */,
 				9AD4DBF52AF69EF6008F83DB /* chat */,
 				9AD4DBBF2AF59DA2008F83DB /* FloatingAIApp.swift */,
+				9ACFCB382AFBC470009F1BF6 /* DemoView.swift */,
 				9AC634022AF7DF4500AAACC2 /* AppDelegate.swift */,
 				9AD4DBD62AF65725008F83DB /* SettingsView.swift */,
-				9A0EB6AD2AFB2B35004536A9 /* styles */,
 				9AD4DC1C2AF6E199008F83DB /* ChatsList.swift */,
+				9A94ED722AFD96F1002CCA6D /* profile.jpeg */,
 				9AD4DBDE2AF65E16008F83DB /* SettingsForm.swift */,
 				9AD4DBC52AF59DA3008F83DB /* Assets.xcassets */,
 				9AD4DBCA2AF59DA3008F83DB /* floating_ai.entitlements */,
@@ -174,7 +217,6 @@
 			isa = PBXGroup;
 			children = (
 				9AD4DC112AF6B694008F83DB /* ChatTextField.swift */,
-				9AD4DC162AF6B722008F83DB /* ChatMessageView.swift */,
 				9AAAC9CC2AF85CF500E046D0 /* ChatBubble.swift */,
 			);
 			path = chat;
@@ -207,6 +249,7 @@
 		9AD4DBFF2AF6A4FF008F83DB /* extensions */ = {
 			isa = PBXGroup;
 			children = (
+				9A94ED6D2AFD1785002CCA6D /* ButtonStyle+Extension.swift */,
 				9A0EB6A92AFB2B1E004536A9 /* Model+Extension.swift */,
 				9AD4DC0F2AF6AED1008F83DB /* VisualEffectBackground.swift */,
 			);
@@ -225,6 +268,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9A94ED7C2AFDB1F4002CCA6D /* Floating AITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9A94ED832AFDB1F4002CCA6D /* Build configuration list for PBXNativeTarget "Floating AITests" */;
+			buildPhases = (
+				9A94ED792AFDB1F4002CCA6D /* Sources */,
+				9A94ED7A2AFDB1F4002CCA6D /* Frameworks */,
+				9A94ED7B2AFDB1F4002CCA6D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9A94ED822AFDB1F4002CCA6D /* PBXTargetDependency */,
+			);
+			name = "Floating AITests";
+			productName = "Floating AITests";
+			productReference = 9A94ED7D2AFDB1F4002CCA6D /* Floating AITests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		9AD4DBBB2AF59DA2008F83DB /* Floating AI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9AD4DBCD2AF59DA3008F83DB /* Build configuration list for PBXNativeTarget "Floating AI" */;
@@ -241,9 +302,11 @@
 			packageProductDependencies = (
 				9AD4DBD12AF65632008F83DB /* HotKey */,
 				9AD4DBD42AF6570A008F83DB /* KeyboardShortcuts */,
-				9AD4DBE32AF6771B008F83DB /* OpenAI */,
 				9AD4DBE82AF69D3C008F83DB /* MarkdownUI */,
 				9AD4DBFD2AF6A1C8008F83DB /* Splash */,
+				9A94ED702AFD8503002CCA6D /* OpenAI */,
+				9A94ED752AFD994A002CCA6D /* Alamofire */,
+				9A94ED872AFDBBC9002CCA6D /* ImageKitIO */,
 			);
 			productName = "floating-ai";
 			productReference = 9AD4DBBC2AF59DA2008F83DB /* Floating AI.app */;
@@ -259,6 +322,10 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					9A94ED7C2AFDB1F4002CCA6D = {
+						CreatedOnToolsVersion = 15.0.1;
+						TestTargetID = 9AD4DBBB2AF59DA2008F83DB;
+					};
 					9AD4DBBB2AF59DA2008F83DB = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -277,28 +344,37 @@
 				9AD4DBD02AF65632008F83DB /* XCRemoteSwiftPackageReference "HotKey" */,
 				9AD4DBD32AF6570A008F83DB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				9AD4DBDB2AF659C3008F83DB /* XCRemoteSwiftPackageReference "Settings" */,
-				9AD4DBE22AF6771B008F83DB /* XCRemoteSwiftPackageReference "OpenAI" */,
 				9AD4DBE72AF69D3C008F83DB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				9AD4DBEA2AF69ED7008F83DB /* XCRemoteSwiftPackageReference "Splash" */,
-				9AD4DC022AF6A52A008F83DB /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */,
+				9A94ED6F2AFD8503002CCA6D /* XCRemoteSwiftPackageReference "swiftopenai" */,
+				9A94ED742AFD994A002CCA6D /* XCRemoteSwiftPackageReference "Alamofire" */,
+				9A94ED862AFDBBC9002CCA6D /* XCRemoteSwiftPackageReference "imagekit-swift" */,
 			);
 			productRefGroup = 9AD4DBBD2AF59DA2008F83DB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				9AD4DBBB2AF59DA2008F83DB /* Floating AI */,
+				9A94ED7C2AFDB1F4002CCA6D /* Floating AITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		9A94ED7B2AFDB1F4002CCA6D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AD4DBBA2AF59DA2008F83DB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A94ED732AFD96F1002CCA6D /* profile.jpeg in Resources */,
 				9A0EB6AC2AFB2B2A004536A9 /* dialogs in Resources */,
 				9AD4DBC92AF59DA3008F83DB /* Preview Assets.xcassets in Resources */,
-				9A0EB6AE2AFB2B35004536A9 /* styles in Resources */,
 				9AD4DBC62AF59DA3008F83DB /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,6 +382,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9A94ED792AFDB1F4002CCA6D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9A94ED802AFDB1F4002CCA6D /* Floating_AITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9AD4DBB82AF59DA2008F83DB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -314,12 +398,15 @@
 				9AD4DC122AF6B694008F83DB /* ChatTextField.swift in Sources */,
 				9AC634032AF7DF4500AAACC2 /* AppDelegate.swift in Sources */,
 				9AAAC9CB2AF8112D00E046D0 /* PermissionsView.swift in Sources */,
+				9A94ED782AFDA129002CCA6D /* CloudinaryAPI.swift in Sources */,
 				9AD4DC1B2AF6DBA3008F83DB /* ChatStore.swift in Sources */,
 				9A0EB6AA2AFB2B1E004536A9 /* Model+Extension.swift in Sources */,
 				9AD4DBD72AF65725008F83DB /* SettingsView.swift in Sources */,
 				9AD4DBC42AF59DA2008F83DB /* Conversation.swift in Sources */,
+				9ACFCB392AFBC470009F1BF6 /* DemoView.swift in Sources */,
 				9AC633FD2AF7BAC900AAACC2 /* Preferences.swift in Sources */,
 				9AD4DC1D2AF6E199008F83DB /* ChatsList.swift in Sources */,
+				9A94ED6E2AFD1785002CCA6D /* ButtonStyle+Extension.swift in Sources */,
 				9AAAC9C82AF80F1000E046D0 /* FocusWindow.swift in Sources */,
 				9A0EB6B02AFB2B64004536A9 /* AIModelPicker.swift in Sources */,
 				9A0EB6A82AFB2AFA004536A9 /* WindowInfo.swift in Sources */,
@@ -328,8 +415,8 @@
 				9AD4DBE12AF65FC4008F83DB /* EffectView.swift in Sources */,
 				9AD4DBC02AF59DA2008F83DB /* FloatingAIApp.swift in Sources */,
 				9AAAC9CF2AF9344F00E046D0 /* NotificationBubble.swift in Sources */,
+				9ACFCB372AFBC2B2009F1BF6 /* ConversationsVM.swift in Sources */,
 				9AD4DC102AF6AED1008F83DB /* VisualEffectBackground.swift in Sources */,
-				9AD4DC172AF6B722008F83DB /* ChatMessageView.swift in Sources */,
 				9AD4DBDF2AF65E16008F83DB /* SettingsForm.swift in Sources */,
 				9AD4DBFB2AF69F2B008F83DB /* TextOutputFormat.swift in Sources */,
 				9AC633FF2AF7CAA400AAACC2 /* DockIcon.swift in Sources */,
@@ -338,7 +425,49 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		9A94ED822AFDB1F4002CCA6D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9AD4DBBB2AF59DA2008F83DB /* Floating AI */;
+			targetProxy = 9A94ED812AFDB1F4002CCA6D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		9A94ED842AFDB1F4002CCA6D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9FMWXUVHRW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.federicovitale.Floating-AITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Floating AI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Floating AI";
+			};
+			name = Debug;
+		};
+		9A94ED852AFDB1F4002CCA6D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 9FMWXUVHRW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.federicovitale.Floating-AITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Floating AI.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Floating AI";
+			};
+			name = Release;
+		};
 		9AD4DBCB2AF59DA3008F83DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -522,6 +651,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9A94ED832AFDB1F4002CCA6D /* Build configuration list for PBXNativeTarget "Floating AITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9A94ED842AFDB1F4002CCA6D /* Debug */,
+				9A94ED852AFDB1F4002CCA6D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9AD4DBB72AF59DA2008F83DB /* Build configuration list for PBXProject "Floating AI" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -543,6 +681,30 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		9A94ED6F2AFD8503002CCA6D /* XCRemoteSwiftPackageReference "swiftopenai" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rawnly/swiftopenai";
+			requirement = {
+				branch = "new-content-format";
+				kind = branch;
+			};
+		};
+		9A94ED742AFD994A002CCA6D /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.8.1;
+			};
+		};
+		9A94ED862AFDBBC9002CCA6D /* XCRemoteSwiftPackageReference "imagekit-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rawnly/imagekit-swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		9AD4DBD02AF65632008F83DB /* XCRemoteSwiftPackageReference "HotKey" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/soffes/HotKey";
@@ -567,14 +729,6 @@
 				minimumVersion = 3.1.0;
 			};
 		};
-		9AD4DBE22AF6771B008F83DB /* XCRemoteSwiftPackageReference "OpenAI" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/MacPaw/OpenAI?tab=readme-ov-file#";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.2.4;
-			};
-		};
 		9AD4DBE72AF69D3C008F83DB /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui";
@@ -591,17 +745,24 @@
 				minimumVersion = 0.16.0;
 			};
 		};
-		9AD4DC022AF6A52A008F83DB /* XCRemoteSwiftPackageReference "SwiftUI-Introspect" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/siteline/SwiftUI-Introspect";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.1;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		9A94ED702AFD8503002CCA6D /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A94ED6F2AFD8503002CCA6D /* XCRemoteSwiftPackageReference "swiftopenai" */;
+			productName = OpenAI;
+		};
+		9A94ED752AFD994A002CCA6D /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A94ED742AFD994A002CCA6D /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		9A94ED872AFDBBC9002CCA6D /* ImageKitIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9A94ED862AFDBBC9002CCA6D /* XCRemoteSwiftPackageReference "imagekit-swift" */;
+			productName = ImageKitIO;
+		};
 		9AD4DBD12AF65632008F83DB /* HotKey */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9AD4DBD02AF65632008F83DB /* XCRemoteSwiftPackageReference "HotKey" */;
@@ -611,11 +772,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9AD4DBD32AF6570A008F83DB /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
-		};
-		9AD4DBE32AF6771B008F83DB /* OpenAI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 9AD4DBE22AF6771B008F83DB /* XCRemoteSwiftPackageReference "OpenAI" */;
-			productName = OpenAI;
 		};
 		9AD4DBE82AF69D3C008F83DB /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;

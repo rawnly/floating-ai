@@ -32,20 +32,18 @@ enum Temperature: Double, CaseIterable {
     }
 }
 
-
-final class Conversation {
-    typealias ID = UUID
-    
-    var temperature: Temperature?
+final class Conversation: Identifiable {
+    var id: UUID
     var timestamp: Date
-    var id: ID
-    var name: String?
     var messages: [Message]
     var systemPrompt: String?
+    
+    var name: String?
+    var temperature: Double?
     var model: Model?
     
     var canAIRename: Bool {
-        return self.name == nil
+        return self.name == nil && Preferences.standard.autoRenameChat
     }
     
     var displayName: String {
@@ -71,15 +69,22 @@ final class Conversation {
         self.name = nil
     }
     
-    init(model: Model) {
+    init(model: Model, temperature: Temperature?=nil) {
         self.timestamp = Date.now
         self.id = UUID()
         self.messages = []
         self.name = nil
         self.model = model
+        self.temperature = temperature?.rawValue
     }
     
     convenience init() {
         self.init(id: .init(), nil)
+    }
+}
+
+extension Conversation:Equatable {
+    static func == (lhs: Conversation, rhs: Conversation) -> Bool {
+        lhs.name == rhs.name && lhs.id == rhs.id && lhs.model == rhs.model && lhs.temperature == rhs.temperature
     }
 }
